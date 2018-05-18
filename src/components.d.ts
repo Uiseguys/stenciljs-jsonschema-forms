@@ -25,37 +25,34 @@ declare global {
 
 import '@stencil/router';
 
-import {
-  MatchResults,
-} from '@stencil/router';
 
 declare global {
 
   namespace StencilComponents {
-    interface AppHome {
+    interface CwcStyles {
 
     }
   }
 
-  interface HTMLAppHomeElement extends StencilComponents.AppHome, HTMLStencilElement {}
+  interface HTMLCwcStylesElement extends StencilComponents.CwcStyles, HTMLStencilElement {}
 
-  var HTMLAppHomeElement: {
-    prototype: HTMLAppHomeElement;
-    new (): HTMLAppHomeElement;
+  var HTMLCwcStylesElement: {
+    prototype: HTMLCwcStylesElement;
+    new (): HTMLCwcStylesElement;
   };
   interface HTMLElementTagNameMap {
-    'app-home': HTMLAppHomeElement;
+    'cwc-styles': HTMLCwcStylesElement;
   }
   interface ElementTagNameMap {
-    'app-home': HTMLAppHomeElement;
+    'cwc-styles': HTMLCwcStylesElement;
   }
   namespace JSX {
     interface IntrinsicElements {
-      'app-home': JSXElements.AppHomeAttributes;
+      'cwc-styles': JSXElements.CwcStylesAttributes;
     }
   }
   namespace JSXElements {
-    export interface AppHomeAttributes extends HTMLAttributes {
+    export interface CwcStylesAttributes extends HTMLAttributes {
 
     }
   }
@@ -65,31 +62,38 @@ declare global {
 declare global {
 
   namespace StencilComponents {
-    interface AppProfile {
-      'match': MatchResults;
+    interface MyCheckbox {
+      'cTitle': string;
+      'for': string;
+      'id': string;
+      'value': boolean;
     }
   }
 
-  interface HTMLAppProfileElement extends StencilComponents.AppProfile, HTMLStencilElement {}
+  interface HTMLMyCheckboxElement extends StencilComponents.MyCheckbox, HTMLStencilElement {}
 
-  var HTMLAppProfileElement: {
-    prototype: HTMLAppProfileElement;
-    new (): HTMLAppProfileElement;
+  var HTMLMyCheckboxElement: {
+    prototype: HTMLMyCheckboxElement;
+    new (): HTMLMyCheckboxElement;
   };
   interface HTMLElementTagNameMap {
-    'app-profile': HTMLAppProfileElement;
+    'my-checkbox': HTMLMyCheckboxElement;
   }
   interface ElementTagNameMap {
-    'app-profile': HTMLAppProfileElement;
+    'my-checkbox': HTMLMyCheckboxElement;
   }
   namespace JSX {
     interface IntrinsicElements {
-      'app-profile': JSXElements.AppProfileAttributes;
+      'my-checkbox': JSXElements.MyCheckboxAttributes;
     }
   }
   namespace JSXElements {
-    export interface AppProfileAttributes extends HTMLAttributes {
-      'match'?: MatchResults;
+    export interface MyCheckboxAttributes extends HTMLAttributes {
+      'cTitle'?: string;
+      'for'?: string;
+      'id'?: string;
+      'onPostValue'?: (event: CustomEvent) => void;
+      'value'?: boolean;
     }
   }
 }
@@ -98,31 +102,183 @@ declare global {
 declare global {
 
   namespace StencilComponents {
-    interface MyApp {
-
+    interface MyDropdown {
+      'dTitle': string;
+      'for': string;
+      'id': string;
+      'value': string;
     }
   }
 
-  interface HTMLMyAppElement extends StencilComponents.MyApp, HTMLStencilElement {}
+  interface HTMLMyDropdownElement extends StencilComponents.MyDropdown, HTMLStencilElement {}
 
-  var HTMLMyAppElement: {
-    prototype: HTMLMyAppElement;
-    new (): HTMLMyAppElement;
+  var HTMLMyDropdownElement: {
+    prototype: HTMLMyDropdownElement;
+    new (): HTMLMyDropdownElement;
   };
   interface HTMLElementTagNameMap {
-    'my-app': HTMLMyAppElement;
+    'my-dropdown': HTMLMyDropdownElement;
   }
   interface ElementTagNameMap {
-    'my-app': HTMLMyAppElement;
+    'my-dropdown': HTMLMyDropdownElement;
   }
   namespace JSX {
     interface IntrinsicElements {
-      'my-app': JSXElements.MyAppAttributes;
+      'my-dropdown': JSXElements.MyDropdownAttributes;
     }
   }
   namespace JSXElements {
-    export interface MyAppAttributes extends HTMLAttributes {
+    export interface MyDropdownAttributes extends HTMLAttributes {
+      'dTitle'?: string;
+      'for'?: string;
+      'id'?: string;
+      'onPostValue'?: (event: CustomEvent) => void;
+      'value'?: string;
+    }
+  }
+}
 
+
+declare global {
+
+  namespace StencilComponents {
+    interface MyDynamicForm {
+      'ajv': any;
+      'form': any;
+      'schema': any;
+    }
+  }
+
+  interface HTMLMyDynamicFormElement extends StencilComponents.MyDynamicForm, HTMLStencilElement {}
+
+  var HTMLMyDynamicFormElement: {
+    prototype: HTMLMyDynamicFormElement;
+    new (): HTMLMyDynamicFormElement;
+  };
+  interface HTMLElementTagNameMap {
+    'my-dynamic-form': HTMLMyDynamicFormElement;
+  }
+  interface ElementTagNameMap {
+    'my-dynamic-form': HTMLMyDynamicFormElement;
+  }
+  namespace JSX {
+    interface IntrinsicElements {
+      'my-dynamic-form': JSXElements.MyDynamicFormAttributes;
+    }
+  }
+  namespace JSXElements {
+    export interface MyDynamicFormAttributes extends HTMLAttributes {
+      'ajv'?: any;
+      'form'?: any;
+      'schema'?: any;
+    }
+  }
+}
+
+
+declare global {
+
+  namespace StencilComponents {
+    interface MyInput {
+      'for': string;
+      'format': any;
+      'iTitle': string;
+      'id': string;
+      'value': any;
+    }
+  }
+
+  interface HTMLMyInputElement extends StencilComponents.MyInput, HTMLStencilElement {}
+
+  var HTMLMyInputElement: {
+    prototype: HTMLMyInputElement;
+    new (): HTMLMyInputElement;
+  };
+  interface HTMLElementTagNameMap {
+    'my-input': HTMLMyInputElement;
+  }
+  interface ElementTagNameMap {
+    'my-input': HTMLMyInputElement;
+  }
+  namespace JSX {
+    interface IntrinsicElements {
+      'my-input': JSXElements.MyInputAttributes;
+    }
+  }
+  namespace JSXElements {
+    export interface MyInputAttributes extends HTMLAttributes {
+      'for'?: string;
+      'format'?: any;
+      'iTitle'?: string;
+      'id'?: string;
+      'onPostValue'?: (event: CustomEvent) => void;
+      'value'?: any;
+    }
+  }
+}
+
+
+declare global {
+
+  namespace StencilComponents {
+    interface FormPage {
+
+    }
+  }
+
+  interface HTMLFormPageElement extends StencilComponents.FormPage, HTMLStencilElement {}
+
+  var HTMLFormPageElement: {
+    prototype: HTMLFormPageElement;
+    new (): HTMLFormPageElement;
+  };
+  interface HTMLElementTagNameMap {
+    'form-page': HTMLFormPageElement;
+  }
+  interface ElementTagNameMap {
+    'form-page': HTMLFormPageElement;
+  }
+  namespace JSX {
+    interface IntrinsicElements {
+      'form-page': JSXElements.FormPageAttributes;
+    }
+  }
+  namespace JSXElements {
+    export interface FormPageAttributes extends HTMLAttributes {
+
+    }
+  }
+}
+
+
+declare global {
+
+  namespace StencilComponents {
+    interface StenciljsJsonschemaForms {
+      'root': string;
+    }
+  }
+
+  interface HTMLStenciljsJsonschemaFormsElement extends StencilComponents.StenciljsJsonschemaForms, HTMLStencilElement {}
+
+  var HTMLStenciljsJsonschemaFormsElement: {
+    prototype: HTMLStenciljsJsonschemaFormsElement;
+    new (): HTMLStenciljsJsonschemaFormsElement;
+  };
+  interface HTMLElementTagNameMap {
+    'stenciljs-jsonschema-forms': HTMLStenciljsJsonschemaFormsElement;
+  }
+  interface ElementTagNameMap {
+    'stenciljs-jsonschema-forms': HTMLStenciljsJsonschemaFormsElement;
+  }
+  namespace JSX {
+    interface IntrinsicElements {
+      'stenciljs-jsonschema-forms': JSXElements.StenciljsJsonschemaFormsAttributes;
+    }
+  }
+  namespace JSXElements {
+    export interface StenciljsJsonschemaFormsAttributes extends HTMLAttributes {
+      'root'?: string;
     }
   }
 }
