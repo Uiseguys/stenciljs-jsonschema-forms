@@ -1,8 +1,8 @@
 {
-  "name": "@ui-guys/stenciljs-jsonschema-forms",
+  "name": "@ui-guys/form-generator",
   "private": false,
   "version": "0.0.1",
-  "description": "Stencil App Starter",
+  "description": "StencilJS implementation of forms generated using JSON Schema",
   "engines": {
     "node": ">=6.11.0 <9.0"
   },
@@ -43,7 +43,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Uiseguys/stenciljs-jsonschema-forms.git"
+    "url": "git+https://github.com/Uiseguys/stenciljs-jsonschema-forms.git"
   },
   "author": "wiseguys-admin <admin@uiguys.berlin>",
   "license": "MIT",
