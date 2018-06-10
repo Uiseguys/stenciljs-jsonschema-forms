@@ -1,5 +1,5 @@
 {
-  "name": "form-generator",
+  "name": "@ui-guys/form-generator",
   "private": false,
   "version": "0.0.1",
   "description": "StencilJS implementation of forms generated using JSON Schema",
