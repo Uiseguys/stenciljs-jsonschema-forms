@@ -2,7 +2,7 @@ const sass = require('@stencil/sass');
 
 exports.config = {
     namespace: 'index',
-    // generateDistribution: true,
+    generateDistribution: true,
     // serviceWorker: true,
     outputTargets: [
         { type: 'www' },
