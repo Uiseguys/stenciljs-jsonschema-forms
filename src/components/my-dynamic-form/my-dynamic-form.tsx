@@ -32,8 +32,8 @@ export class MyDynamicForm {
     postValueHandler(CustomEvent) {
         this.changeValueChecked = true;
 
-        let fieldId: any = CustomEvent.detail._values.id.match(/\w+$/)[0];
-        let fieldValue: any = CustomEvent.detail._values.currentValue === false ? null : CustomEvent.detail._values.currentValue;
+        let fieldId: any = CustomEvent.detail.id.match(/\w+$/)[0];
+        let fieldValue: any = CustomEvent.detail.type === 'checkbox' ? CustomEvent.detail.checked : CustomEvent.detail.value;
         let currentFormData: any = this.data;
 
         currentFormData = this.fillData(fieldId, fieldValue, currentFormData);

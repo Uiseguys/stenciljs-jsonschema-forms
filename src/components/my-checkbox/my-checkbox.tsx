@@ -1,4 +1,4 @@
-import {Component, Prop, Event, EventEmitter, Element, State} from '@stencil/core';
+import {Component, Prop, Event, EventEmitter, Element} from '@stencil/core';
 
 @Component({
     tag: 'my-checkbox',
@@ -6,36 +6,33 @@ import {Component, Prop, Event, EventEmitter, Element, State} from '@stencil/cor
     styleUrl: 'my-checkbox.scss'
 })
 export class MyCheckbox {
-
-    @State() currentValue: boolean = false;
-
     @Prop() id: string;
     @Prop() for: string;
     @Prop() value: boolean;
     @Prop() cTitle: string;
 
     @Event() postValue: EventEmitter;
-    @Element()
-    element: HTMLElement;
+    @Element() element: HTMLElement;
 
-    /**
-     * Changing value of 'checked' attribute
-     * @param event
-     */
-    checkWatcher() {
-        this.currentValue ? this.currentValue = false : this.currentValue = true;
-        this.postValue.emit(this.element);
-    };
+    constructor() {
+        this.handleInputChange = this.handleInputChange.bind(this);
+    }
+
+    handleInputChange(event) {
+        this.postValue.emit(event.target);
+    }
 
     render() {
-        const parsedValue = this.value ? this.value : false;
-
         return (
             <div class="form-check">
                 <label class="form-check-label">
                     {this.cTitle}<br/>
-                    <input class="form-check-input" id={this.id} value={`${this.currentValue}` || `${parsedValue}`}
-                           type="checkbox" onClick={() => {this.checkWatcher()}}/><br/><br/>
+                    <input
+                        id={this.id}
+                        type="checkbox"
+                        class="form-check-input"
+                        onChange={this.handleInputChange}/>
+                    <br/><br/>
                 </label>
             </div>
         );
