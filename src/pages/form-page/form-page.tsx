@@ -67,8 +67,7 @@ export class FormPage {
                     "placeholder": "Select a Date",
                     "dateValue": {
                         "$id": "data/properties/date/dateValue",
-                        "type": "string",
-                        "labelContent": "Date"
+                        "type": "string"
                     }
                 },
                 "startDate": {
@@ -99,7 +98,7 @@ export class FormPage {
                     "items": {
                         "$id": "/properties/sources/items",
                         "type": "string",
-                        "labelContent": "The 0 Schema",
+                        "labelContent": "Select",
                         "description": "An explanation about the purpose of this instance.",
                         "placeholder": "Select",
                         "default": "",

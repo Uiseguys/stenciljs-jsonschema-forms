@@ -28,11 +28,13 @@ export class MyDropdown {
         const parsedValue = this.value ? JSON.parse(this.value) : null;
 
         return (
-            <div class="input-group col-3">
-                <select class="custom-select" id={this.id} value={this.currentValue}
-                        onClick={(event) => this.getSelectValues(event)}>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text">{this.labelContent}</label>
+                </div>
+                <select class="custom-select" id={this.id} value={this.currentValue} onClick={(event) => this.getSelectValues(event)}>
                     {parsedValue && parsedValue.map((value) =>
-                        <option>{value}</option>
+                        <option value={value}>{value}</option>
                     )}
                 </select>
             </div>

@@ -26,15 +26,9 @@ export class MyCheckbox {
     render() {
         return (
             <div class="form-check">
-                <label class="form-check-label">
-                    {this.labelContent}<br/>
-                    <input
-                        id={this.id}
-                        type="checkbox"
-                        class="form-check-input"
-                        onChange={this.handleInputChange}/>
-                    <br/><br/>
-                </label>
+                <label class="form-check-label">{this.labelContent}</label><br/>
+                <input type="checkbox" class="form-check-input" id={this.id} onChange={this.handleInputChange}/>
+                <br/><br/>
             </div>
         );
     }

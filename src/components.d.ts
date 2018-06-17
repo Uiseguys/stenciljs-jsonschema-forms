@@ -63,9 +63,10 @@ declare global {
 
   namespace StencilComponents {
     interface MyCheckbox {
-      'cTitle': string;
       'for': string;
       'id': string;
+      'labelContent': string;
+      'placeholder': string;
       'value': boolean;
     }
   }
@@ -89,10 +90,11 @@ declare global {
   }
   namespace JSXElements {
     export interface MyCheckboxAttributes extends HTMLAttributes {
-      'cTitle'?: string;
       'for'?: string;
       'id'?: string;
+      'labelContent'?: string;
       'onPostValue'?: (event: CustomEvent) => void;
+      'placeholder'?: string;
       'value'?: boolean;
     }
   }
@@ -103,9 +105,10 @@ declare global {
 
   namespace StencilComponents {
     interface MyDropdown {
-      'dTitle': string;
       'for': string;
       'id': string;
+      'labelContent': string;
+      'placeholder': string;
       'value': string;
     }
   }
@@ -129,10 +132,11 @@ declare global {
   }
   namespace JSXElements {
     export interface MyDropdownAttributes extends HTMLAttributes {
-      'dTitle'?: string;
       'for'?: string;
       'id'?: string;
+      'labelContent'?: string;
       'onPostValue'?: (event: CustomEvent) => void;
+      'placeholder'?: string;
       'value'?: string;
     }
   }
@@ -182,8 +186,9 @@ declare global {
     interface MyInput {
       'for': string;
       'format': any;
-      'iTitle': string;
       'id': string;
+      'labelContent': string;
+      'placeholder': string;
       'value': any;
     }
   }
@@ -209,9 +214,10 @@ declare global {
     export interface MyInputAttributes extends HTMLAttributes {
       'for'?: string;
       'format'?: any;
-      'iTitle'?: string;
       'id'?: string;
+      'labelContent'?: string;
       'onPostValue'?: (event: CustomEvent) => void;
+      'placeholder'?: string;
       'value'?: any;
     }
   }
