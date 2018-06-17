@@ -15,38 +15,15 @@ export class MyInput {
     @Prop() id: string;
     @Prop() for: string;
     @Prop() value: any;
-    @Prop() iTitle: string;
     @Prop() format: any;
+    @Prop() labelContent: string;
+    @Prop() placeholder: string;
 
     @Event() postValue: EventEmitter;
     @Element()
     element: HTMLElement;
 
-    getAndPostTextValue(event) {
-        if (event.currentTarget.value) {
-            this.for === "integer" ?
-                this.currentValue = JSON.parse(event.currentTarget.value) : this.currentValue = event.currentTarget.value;
-        } else {
-            this.currentValue = null;
-        }
-        this.postValue.emit(this.element);
-    };
-
-    getContent() {
-        let content =
-            <input class="form-control" id={this.id} type={this.for === "integer" ? "number" : "text"}
-                   value={this.currentValue} onInput={(event) => this.getAndPostTextValue(event)}/>;
-        if (this.format === "date") {
-            content =
-                <input class="form-control" id={this.id} type={this.for === "integer" ? "number" : "text"}
-                       value={this.currentValue} onChange={(event) => this.getAndPostTextValue(event)}
-                       onInput={(event) => this.getAndPostTextValue(event)}/>;
-        }
-        return content;
-    };
-
     componentWillLoad() {
-
         if (this.for === "object") {
             this.currentValue = this.value ? this.value : "";
         }
@@ -59,7 +36,6 @@ export class MyInput {
     };
 
     componentDidLoad() {
-
         if (this.for === "object" && this.format === "date") {
             const picker = new Pikaday({
                 field: this.element && this.element.shadowRoot && this.element.shadowRoot.querySelector("input"),
@@ -73,16 +49,38 @@ export class MyInput {
         }
     };
 
-    render() {
+    getAndPostTextValue(event) {
+        if (event.currentTarget.value) {
+            this.for === "integer" ?
+                this.currentValue = JSON.parse(event.currentTarget.value) : this.currentValue = event.currentTarget.value;
+        } else {
+            this.currentValue = null;
+        }
+        this.postValue.emit(this.element);
+    };
 
+    getContent() {
+        let content =
+            <input type={this.for === "integer" ? "number" : "text"} class="form-control" id={this.id}
+                   value={this.currentValue} placeholder={this.placeholder}
+                   onInput={(event) => this.getAndPostTextValue(event)}/>;
+        if (this.format === "date") {
+            content =
+                <input type={this.for === "integer" ? "number" : "text"} class="form-control" id={this.id}
+                       value={this.currentValue} placeholder={this.placeholder}
+                       onInput={(event) => this.getAndPostTextValue(event)}
+                       onChange={(event) => this.getAndPostTextValue(event)} />;
+        }
+        return content;
+    };
+
+    render() {
         const content = this.getContent();
 
         return (
             <div class="form-group">
-                <label>
-                    {this.iTitle}<br/>
-                    {content}<br/>
-                </label>
+                <label>{this.labelContent}</label>
+                {content}
             </div>
         );
     }

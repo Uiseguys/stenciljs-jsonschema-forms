@@ -123,10 +123,10 @@ export class MyDynamicForm {
 
     updateValidationMessage(validate) {
         let unchangedMessage: any = this.ajv.errorsText(validate.errors).replace(/\,?\w*\.?\w*\./g, "").split(" ");
-        Object.keys(this.allTitles).map((title: string) => {
+        Object.keys(this.allTitles).map((labelContent: string) => {
             for (let el in unchangedMessage) {
-                if (unchangedMessage[el] === title) {
-                    unchangedMessage[el] = this.allTitles[title];
+                if (unchangedMessage[el] === labelContent) {
+                    unchangedMessage[el] = this.allTitles[labelContent];
                 }
             }
         });
@@ -140,25 +140,26 @@ export class MyDynamicForm {
     createField(schemaProps: any, prop: any, schemaPropKey: any) {
         let {type} = schemaProps[prop];
         let Tag = this.mapping[type];
-        let title: string = schemaProps[prop].title;
+        let labelContent: string = schemaProps[prop].labelContent;
+        let placeholder: string = schemaProps[prop].placeholder;
         let id: string = schemaProps[prop].$id;
         let elementType: string = schemaProps[prop].type;
         let elementFormat: any = schemaProps[prop].format || null;
-        this.allTitles[prop] = title;
+        this.allTitles[prop] = labelContent;
 
-        if (!title) {
-            schemaProps[prop].items ? title = schemaProps[prop].items.title : title = 'Unnamed field';
-            this.allTitles[prop] = title;
+        if (!labelContent) {
+            schemaProps[prop].items ? labelContent = schemaProps[prop].items.labelContent : labelContent = 'Unnamed field';
+            this.allTitles[prop] = labelContent;
         }
 
         if (schemaProps[prop].format === "date") {
             return <Tag id={id} format={elementFormat} for={elementType} value={this.form[prop].dateValue || ""}
-                        title={title}/>;
+                        labelContent={labelContent} placeholder={placeholder}/>;
         }
 
         return <Tag id={id} format={elementFormat} for={elementType}
                     value={(this.form[prop] || this.form[prop] === false) ? JSON.stringify(this.form[prop]) : this.form[schemaPropKey][prop]}
-                    title={title}/> || null;
+                    labelContent={labelContent} placeholder={placeholder}/> || null;
 
     };
 

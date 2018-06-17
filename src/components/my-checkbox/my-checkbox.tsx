@@ -9,7 +9,8 @@ export class MyCheckbox {
     @Prop() id: string;
     @Prop() for: string;
     @Prop() value: boolean;
-    @Prop() cTitle: string;
+    @Prop() labelContent: string;
+    @Prop() placeholder: string;
 
     @Event() postValue: EventEmitter;
     @Element() element: HTMLElement;
@@ -26,7 +27,7 @@ export class MyCheckbox {
         return (
             <div class="form-check">
                 <label class="form-check-label">
-                    {this.cTitle}<br/>
+                    {this.labelContent}<br/>
                     <input
                         id={this.id}
                         type="checkbox"

@@ -12,7 +12,8 @@ export class MyDropdown {
     @Prop() id: string;
     @Prop() for: string;
     @Prop() value: string;
-    @Prop() dTitle: string;
+    @Prop() labelContent: string;
+    @Prop() placeholder: string;
 
     @Event() postValue: EventEmitter;
     @Element()
