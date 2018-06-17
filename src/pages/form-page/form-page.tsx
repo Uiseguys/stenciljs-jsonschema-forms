@@ -31,18 +31,6 @@ export class FormPage {
                         false
                     ]
                 },
-                "date": {
-                    "$id": "data/properties/date",
-                    "labelContent": "Date",
-                    "type": "object",
-                    "format": "date",
-                    "placeholder": "Select a Date",
-                    "dateValue": {
-                        "$id": "data/properties/date/dateValue",
-                        "type": "string",
-                        "labelContent": "Date"
-                    }
-                },
                 "duration": {
                     "$id": "data/properties/duration",
                     "type": "object",
@@ -69,6 +57,18 @@ export class FormPage {
                                 10
                             ]
                         }
+                    }
+                },
+                "date": {
+                    "$id": "data/properties/date",
+                    "labelContent": "Date",
+                    "type": "object",
+                    "format": "date",
+                    "placeholder": "Select a Date",
+                    "dateValue": {
+                        "$id": "data/properties/date/dateValue",
+                        "type": "string",
+                        "labelContent": "Date"
                     }
                 },
                 "startDate": {
@@ -113,12 +113,12 @@ export class FormPage {
 
         this.form = {
             "checked": false,
-            "date": {
-                "dateValue": moment(new Date()).format('Do MMMM YYYY')
-            },
             "duration": {
                 "min": 5,
                 "max": 10
+            },
+            "date": {
+                "dateValue": moment(new Date()).format('Do MMMM YYYY')
             },
             "startDate": "2007-08-31T16:47+00:00",
             "endDate": "2007-08-31T16:47+00:00",

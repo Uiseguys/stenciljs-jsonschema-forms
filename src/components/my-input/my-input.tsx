@@ -1,6 +1,6 @@
 import {Component, Prop, State, Event, EventEmitter, Element} from '@stencil/core';
 import Pikaday from 'pikaday/pikaday.js';   // disable the listener to support shadow DOM
-// import * as moment from 'moment';
+import * as moment_ from 'moment';
 
 @Component({
     tag: 'my-input',
@@ -8,6 +8,7 @@ import Pikaday from 'pikaday/pikaday.js';   // disable the listener to support s
     styleUrl: 'my-input.scss'
 })
 export class MyInput {
+    moment = moment_;
 
     @State() currentValue: string;
     @State() currentDate: any;
@@ -36,13 +37,13 @@ export class MyInput {
     };
 
     componentDidLoad() {
+        const _self = this;
+
         if (this.for === "object" && this.format === "date") {
             const picker = new Pikaday({
-                field: this.element && this.element.shadowRoot && this.element.shadowRoot.querySelector("input"),
+                field: this.element && this.element.querySelector("input"),
                 onSelect: function (date) {
-                    console.log('disabled date formatting via moment because build broke');
-                    console.log(date);
-                    // self.currentDate = moment(date).format('Do MMMM YYYY');
+                    _self.currentValue = _self.moment(date).format('Do MMMM YYYY');
                 }
             });
             picker._onClick = null;   // disable the listener to support shadow DOM
