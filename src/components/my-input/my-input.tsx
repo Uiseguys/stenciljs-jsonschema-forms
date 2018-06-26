@@ -79,9 +79,11 @@ export class MyInput {
         const content = this.getContent();
 
         return (
-            <div class="form-group">
-                <label>{this.labelContent}</label>
-                {content}
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">{this.labelContent}</label>
+                <div class="col-sm-10">
+                    {content}
+                </div>
             </div>
         );
     }

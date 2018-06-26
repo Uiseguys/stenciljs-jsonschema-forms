@@ -187,7 +187,7 @@ export class MyDynamicForm {
 
         if (this.invalidMessage) {
             message =
-                <div>
+                <div class="alert alert-danger">
                     <span>{this.invalidMessage}</span>
                 </div>;
         }
@@ -195,11 +195,11 @@ export class MyDynamicForm {
         return (
             <div>
                 <div>
+                    {message}
                     {form}
-                    {message} <br/>
                 </div>
                 <br/>
-                <input class="btn" type="submit" value="Validate" onClick={() => this.validateForm()}/>
+                <input class="btn btn-outline-primary" type="submit" value="Validate" onClick={() => this.validateForm()}/>
             </div>
         );
     }

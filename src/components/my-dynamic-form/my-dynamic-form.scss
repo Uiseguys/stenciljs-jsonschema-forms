@@ -1,3 +1,61 @@
+/*
+ * Application global variables.
+ */
+
+// Set Font Awesome font path
+$fa-font-path: "~/font-awesome/fonts";
+
+// ---------------------------------------------------------------------------
+// Bootstrap variables
+//
+// Override Bootstrap variables here to suite your theme.
+// Copy variables you want to customize from node_modules/bootstrap/scss/_variables.scss
+
+//
+// Color system
+//
+
+$white:  #fff;
+$gray-100: #f8f9fa;
+$gray-200: #e9ecef;
+$gray-300: #dee2e6;
+$gray-400: #ced4da;
+$gray-500: #adb5bd;
+$gray-600: #868e96;
+$gray-700: #495057;
+$gray-800: #343a40;
+$gray-900: #212529;
+$black:  #000;
+
+$blue:    #0073dd;
+$indigo:  #6610f2;
+$purple:  #6f42c1;
+$pink:    #e83e8c;
+$red:     #dc3545;
+$dark-red: #bc2d3b;
+$orange:  #fd7e14;
+$yellow:  #ffc107;
+$green:   #28a745;
+$teal:    #20c997;
+$cyan:    #17a2b8;
+
+$theme-colors: (
+  primary: $blue,
+  secondary: $gray-600,
+  success: $green,
+  info: $cyan,
+  warning: $yellow,
+  danger: $red,
+  dark-danger: $dark-red,
+  light: $gray-100,
+  dark: $gray-800,
+  white: $white,
+  black: $black
+);
+
+$border-radius: 0;
+$input-color: $cyan;
+
 //../../../node_modules/bootstrap/scss/bootstrap.scss
 @import "../../../node_modules/bootstrap/scss/functions";
 @import "../../../node_modules/bootstrap/scss/variables";
@@ -21,3 +79,19 @@
 @import "../../../node_modules/bootstrap/scss/media";
 @import "../../../node_modules/bootstrap/scss/list-group";
 @import "../../../node_modules/bootstrap/scss/close";
+
+select {
+  -webkit-appearance: none;
+}
+
+.form-control {
+  border-top: 0px;
+  border-right: 0px;
+  border-left: 0px;
+  border-bottom-style: dotted;
+}
+
+.col-form-label,
+.form-check-label {
+  color: $gray-600;
+}
