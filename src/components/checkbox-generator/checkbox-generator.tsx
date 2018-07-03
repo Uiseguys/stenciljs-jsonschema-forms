@@ -1,11 +1,11 @@
 import {Component, Prop, Event, EventEmitter, Element} from '@stencil/core';
 
 @Component({
-    tag: 'my-checkbox',
+    tag: 'checkbox-generator',
     shadow: false,
-    styleUrl: 'my-checkbox.scss'
+    styleUrl: 'checkbox-generator.scss'
 })
-export class MyCheckbox {
+export class CheckboxGeneratorComponent {
     @Prop() id: string;
     @Prop() for: string;
     @Prop() value: boolean;

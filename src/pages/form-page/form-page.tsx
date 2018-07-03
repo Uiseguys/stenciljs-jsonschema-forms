@@ -132,13 +132,13 @@ export class FormPage {
 
 
         return (
-            <my-dynamic-form schema={this.schema} form={this.form} ajv={this.ajv}>
-                <my-input for="integer"></my-input>
-                <my-input for="string"></my-input>
-                <my-input for="object"></my-input>
-                <my-dropdown for="array"></my-dropdown>
-                <my-checkbox for="boolean"></my-checkbox>
-            </my-dynamic-form>
+            <form-generator schema={this.schema} form={this.form} ajv={this.ajv}>
+                <input-generator for="integer"></input-generator>
+                <input-generator for="string"></input-generator>
+                <input-generator for="object"></input-generator>
+                <dropdown-generator for="array"></dropdown-generator>
+                <checkbox-generator for="boolean"></checkbox-generator>
+            </form-generator>
         );
     }
 }

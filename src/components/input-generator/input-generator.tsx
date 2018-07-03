@@ -3,11 +3,11 @@ import Pikaday from 'pikaday/pikaday.js';   // disable the listener to support s
 import * as moment_ from 'moment';
 
 @Component({
-    tag: 'my-input',
+    tag: 'input-generator',
     shadow: false,
-    styleUrl: 'my-input.scss'
+    styleUrl: 'input-generator.scss'
 })
-export class MyInput {
+export class InputGeneratorComponent {
     moment = moment_;
 
     @State() currentValue: string;

@@ -1,12 +1,11 @@
 import {Element, Component, Prop, State, Listen} from '@stencil/core';
 
 @Component({
-    tag: 'my-dynamic-form',
+    tag: 'form-generator',
     shadow: true,
-    styleUrl: 'my-dynamic-form.scss'
+    styleUrl: 'form-generator.scss'
 })
-export class MyDynamicForm {
-
+export class FormGeneratorComponent {
     // @Event() validateData: EventEmitter;
 
     @State() allTitles: any = {};

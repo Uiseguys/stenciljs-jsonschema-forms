@@ -1,12 +1,11 @@
 import {Component, Prop, State, Event, EventEmitter, Element} from '@stencil/core';
 
 @Component({
-    tag: 'my-dropdown',
+    tag: 'dropdown-generator',
     shadow: false,
-    styleUrl: 'my-dropdown.scss'
+    styleUrl: 'dropdown-generator.scss'
 })
-export class MyDropdown {
-
+export class DropdownGeneratorComponent {
     @State() currentValue: string;
 
     @Prop() id: string;

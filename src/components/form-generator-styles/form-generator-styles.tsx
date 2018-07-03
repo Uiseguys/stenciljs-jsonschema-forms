@@ -4,7 +4,7 @@ import { Component } from '@stencil/core';
   tag: 'cwc-styles',
   styleUrl: '../../../node_modules/bootstrap/dist/css/bootstrap.css'
 })
-export class CwcStylesComponent {
+export class FormGeneratorStylesComponent {
 
     render() {
         return
