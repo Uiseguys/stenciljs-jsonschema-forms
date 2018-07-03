@@ -1,7 +1,7 @@
 const sass = require('@stencil/sass');
 
 exports.config = {
-    namespace: 'index',
+    namespace: 'JsonSchema',
     generateDistribution: true,
     // serviceWorker: true,
     outputTargets: [
