@@ -173,8 +173,17 @@ export class FormGeneratorComponent {
         })
     };
 
-    render() {
+    componentWillLoad() {
+        this.data = Object.assign({}, this.form);
 
+        for (let i = 0; i < this.el.children.length; i++) {
+            let child = this.el.children[i];
+            let mapKey = child['for'];
+            this.mapping[mapKey] = child['localName'];
+        }
+    }
+
+    render() {
         /**
          * Creating form fields and saving it to the let form
          */
@@ -197,20 +206,10 @@ export class FormGeneratorComponent {
                     {message}
                     {form}
                 </div>
+                <slot name="slot-generator" />
                 <br/>
                 <input class="btn btn-outline-primary" type="submit" value="Validate" onClick={() => this.validateForm()}/>
             </div>
         );
-    }
-
-    componentWillLoad() {
-
-        this.data = Object.assign({}, this.form);
-
-        for (let i = 0; i < this.el.children.length; i++) {
-            let child = this.el.children[i];
-            let mapKey = child['for'];
-            this.mapping[mapKey] = child['localName'];
-        }
     }
 }
