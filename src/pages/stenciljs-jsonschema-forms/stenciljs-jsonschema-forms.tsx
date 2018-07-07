@@ -9,9 +9,9 @@ export class StencilBsDemoPage {
     @Prop() root = '/';
     components = [
         {
-            url: '/form',
-            title: 'Form Component',
-            componentName: 'form-page',
+            url: '/form-generator',
+            title: 'Form Generator',
+            componentName: 'form-generator-page',
             isHiden: false
         }
     ]

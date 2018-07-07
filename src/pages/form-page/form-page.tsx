@@ -3,17 +3,16 @@ import Ajv from 'ajv/dist/ajv.min.js';
 import moment from 'moment';
 
 @Component({
-    tag: 'form-page',
+    tag: 'form-generator-page',
     shadow: true,
 })
-export class FormPage {
+export class FormGeneratorPage {
 
     @State() schema: any;
     @State() form: any;
     @State() ajv: any;
 
     componentWillLoad() {
-
         this.ajv = new Ajv({allErrors: true});
 
         this.schema = {
