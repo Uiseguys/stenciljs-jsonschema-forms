@@ -9,7 +9,7 @@ export class CheckboxGeneratorComponent {
     @Prop() id: string;
     @Prop() for: string;
     @Prop() value: boolean;
-    @Prop() labelContent: string;
+    @Prop() label: string;
     @Prop() placeholder: string;
 
     @Event() postValue: EventEmitter;
@@ -27,7 +27,7 @@ export class CheckboxGeneratorComponent {
         return (
             <div class="form-check">
                 <input type="checkbox" class="form-check-input" id={this.id} onChange={this.handleInputChange}/>
-                <label class="form-check-label">{this.labelContent}</label>
+                <label class="form-check-label">{this.label}</label>
             </div>
         );
     }

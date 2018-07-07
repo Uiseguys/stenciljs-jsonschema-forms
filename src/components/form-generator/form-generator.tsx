@@ -153,12 +153,12 @@ export class FormGeneratorComponent {
 
         if (schemaProps[prop].format === "date") {
             return <Tag id={id} format={elementFormat} for={elementType} value={this.form[prop].dateValue || ""}
-                        labelContent={labelContent} placeholder={placeholder}/>;
+                        label={labelContent} placeholder={placeholder}/>;
         }
 
         return <Tag id={id} format={elementFormat} for={elementType}
                     value={(this.form[prop] || this.form[prop] === false) ? JSON.stringify(this.form[prop]) : this.form[schemaPropKey][prop]}
-                    labelContent={labelContent} placeholder={placeholder}/> || null;
+                    label={labelContent} placeholder={placeholder}/> || null;
 
     };
 
@@ -174,11 +174,16 @@ export class FormGeneratorComponent {
     };
 
     componentWillLoad() {
+        let mapKey;
         this.data = Object.assign({}, this.form);
 
         for (let i = 0; i < this.el.children.length; i++) {
             let child = this.el.children[i];
-            let mapKey = child['for'];
+            if (child['for']) {
+                mapKey = child['for'];
+            } else {
+                mapKey = child.getAttribute('for');
+            }
             this.mapping[mapKey] = child['localName'];
         }
     }

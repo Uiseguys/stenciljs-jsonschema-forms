@@ -11,7 +11,7 @@ export class DropdownGeneratorComponent {
     @Prop() id: string;
     @Prop() for: string;
     @Prop() value: string;
-    @Prop() labelContent: string;
+    @Prop() label: string;
     @Prop() placeholder: string;
 
     @Event() postValue: EventEmitter;
@@ -29,7 +29,7 @@ export class DropdownGeneratorComponent {
         return (
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                    <label class="input-group-text">{this.labelContent}</label>
+                    <label class="input-group-text">{this.label}</label>
                 </div>
                 <select class="custom-select" id={this.id} value={this.currentValue} onClick={(event) => this.getSelectValues(event)}>
                     {parsedValue && parsedValue.map((value) =>

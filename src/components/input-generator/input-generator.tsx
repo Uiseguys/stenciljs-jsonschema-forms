@@ -17,7 +17,7 @@ export class InputGeneratorComponent {
     @Prop() for: string;
     @Prop() value: any;
     @Prop() format: any;
-    @Prop() labelContent: string;
+    @Prop() label: string;
     @Prop() placeholder: string;
 
     @Event() postValue: EventEmitter;
@@ -80,7 +80,7 @@ export class InputGeneratorComponent {
 
         return (
             <div class="form-group row">
-                <label class="col-sm-2 col-form-label">{this.labelContent}</label>
+                <label class="col-sm-2 col-form-label">{this.label}</label>
                 <div class="col-sm-10">
                     {content}
                 </div>
