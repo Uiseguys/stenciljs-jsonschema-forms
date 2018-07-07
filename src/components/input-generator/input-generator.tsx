@@ -22,7 +22,7 @@ export class InputGeneratorComponent {
 
     @Event() postValue: EventEmitter;
     @Element()
-    element: HTMLElement;
+    element: HTMLInputElement;
 
     componentWillLoad() {
         if (this.for === "object") {
@@ -51,12 +51,13 @@ export class InputGeneratorComponent {
     };
 
     getAndPostTextValue(event) {
-        if (event.currentTarget.value) {
+        if (event.target.value) {
             this.for === "integer" ?
-                this.currentValue = JSON.parse(event.currentTarget.value) : this.currentValue = event.currentTarget.value;
+                this.currentValue = JSON.parse(event.target.value) : this.currentValue = event.target.value;
         } else {
             this.currentValue = null;
         }
+        this.element.value = this.currentValue;
         this.postValue.emit(this.element);
     };
 

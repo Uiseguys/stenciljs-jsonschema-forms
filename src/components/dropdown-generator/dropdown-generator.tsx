@@ -16,10 +16,15 @@ export class DropdownGeneratorComponent {
 
     @Event() postValue: EventEmitter;
     @Element()
-    element: HTMLElement;
+    element: HTMLInputElement;
 
     getSelectValues(event) {
-        this.currentValue = event.currentTarget.value;
+        if (event.target.value) {
+            this.currentValue = event.target.value;
+        } else {
+            this.currentValue = null;
+        }
+        this.element.value = this.currentValue;
         this.postValue.emit(this.element);
     };
 
