@@ -21,7 +21,7 @@ export class FormGeneratorComponent {
      * @Prop {any} form - form for JSON-schema
      */
     @Prop() schema: any;
-    @Prop() form: any;
+    @Prop() value: any;
 
     @Element() el: HTMLElement;
 
@@ -41,7 +41,7 @@ export class FormGeneratorComponent {
     componentWillLoad() {
         let mapKey;
         this.ajv = new Ajv({allErrors: true});
-        this.data = Object.assign({}, this.form);
+        this.data = Object.assign({}, this.value);
 
         for (let i = 0; i < this.el.children.length; i++) {
             let child = this.el.children[i];
@@ -106,7 +106,7 @@ export class FormGeneratorComponent {
         if (!this.changeValueChecked) {
             // ajv.validate is not working with nested objects, so we have to make a flat clean clone to validate it,
             // otherwise we should not use nested objects as it is working correctly without them
-            let flattedForm: any = this.deletePropsWithoutData(this.form);
+            let flattedForm: any = this.deletePropsWithoutData(this.value);
             dataValidate = validate(this.flatDataObject(flattedForm));
         } else {
             dataValidate = validate(this.flatDataObject(this.changedData));
@@ -159,12 +159,12 @@ export class FormGeneratorComponent {
         }
 
         if (schemaProps[prop].format === "date") {
-            return <Tag id={id} format={elementFormat} for={elementType} value={this.form[prop].dateValue || ""}
+            return <Tag id={id} format={elementFormat} for={elementType} value={this.value[prop].dateValue || ""}
                         label={labelContent} placeholder={placeholder}/>;
         }
 
         return <Tag id={id} format={elementFormat} for={elementType}
-                    value={(this.form[prop] || this.form[prop] === false) ? JSON.stringify(this.form[prop]) : this.form[schemaPropKey][prop]}
+                    value={(this.value[prop] || this.value[prop] === false) ? JSON.stringify(this.value[prop]) : this.value[schemaPropKey][prop]}
                     label={labelContent} placeholder={placeholder}/> || null;
 
     };

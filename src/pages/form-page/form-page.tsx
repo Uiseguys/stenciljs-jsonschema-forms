@@ -124,7 +124,7 @@ export class FormGeneratorPage {
 
     render() {
         return (
-            <form-generator schema={this.schema} form={this.form}>
+            <form-generator schema={this.schema} value={this.form}>
                 <input-generator for="integer"></input-generator>
                 <input-generator for="string"></input-generator>
                 <input-generator for="object"></input-generator>
