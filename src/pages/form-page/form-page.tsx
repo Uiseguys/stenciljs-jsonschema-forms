@@ -1,5 +1,4 @@
 import {Component, State} from '@stencil/core';
-import Ajv from 'ajv/dist/ajv.min.js';
 import moment from 'moment';
 
 @Component({
@@ -7,14 +6,10 @@ import moment from 'moment';
     shadow: true,
 })
 export class FormGeneratorPage {
-
     @State() schema: any;
     @State() form: any;
-    @State() ajv: any;
 
     componentWillLoad() {
-        this.ajv = new Ajv({allErrors: true});
-
         this.schema = {
             "type": "object",
             "required": ["startDate", "endDate", "min", "max", "checked", "sources", "dateValue"],
@@ -128,10 +123,8 @@ export class FormGeneratorPage {
     };
 
     render() {
-
-
         return (
-            <form-generator schema={this.schema} form={this.form} ajv={this.ajv}>
+            <form-generator schema={this.schema} form={this.form}>
                 <input-generator for="integer"></input-generator>
                 <input-generator for="string"></input-generator>
                 <input-generator for="object"></input-generator>
