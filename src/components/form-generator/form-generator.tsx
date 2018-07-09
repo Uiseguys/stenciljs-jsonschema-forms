@@ -1,4 +1,5 @@
 import {Element, Component, Prop, State, Listen} from '@stencil/core';
+import Ajv from 'ajv/dist/ajv.min.js';
 
 @Component({
     tag: 'form-generator',
@@ -6,13 +7,11 @@ import {Element, Component, Prop, State, Listen} from '@stencil/core';
     styleUrl: 'form-generator.scss'
 })
 export class FormGeneratorComponent {
-    // @Event() validateData: EventEmitter;
-
+    mapping: Object = {}; // properties of the JSON schema
+    ajv: any;
     @State() allTitles: any = {};
-    @State() allIds: any = [];
     @State() data: any;
     @State() changedData: any;
-    @State() filledData: any;
     @State() invalidMessage: string = null;
     @State() changeValueChecked: boolean = false;
 
@@ -23,7 +22,6 @@ export class FormGeneratorComponent {
      */
     @Prop() schema: any;
     @Prop() form: any;
-    @Prop() ajv: any;
 
     @Element() el: HTMLElement;
 
@@ -40,12 +38,25 @@ export class FormGeneratorComponent {
         this.changedData = this.deletePropsWithoutData(clearedFormData);
     };
 
-    mapping: Object = {}; // properties of the JSON schema
+    componentWillLoad() {
+        let mapKey;
+        this.ajv = new Ajv({allErrors: true});
+        this.data = Object.assign({}, this.form);
+
+        for (let i = 0; i < this.el.children.length; i++) {
+            let child = this.el.children[i];
+            if (child['for']) {
+                mapKey = child['for'];
+            } else {
+                mapKey = child.getAttribute('for');
+            }
+            this.mapping[mapKey] = child['localName'];
+        }
+    }
 
     /**
      * Functions for filling data object
      */
-
     fillData(fieldId, fieldValue, currentFormData) {
         Object.keys(currentFormData).map((key) => {
             if (key === fieldId) {
@@ -71,7 +82,6 @@ export class FormGeneratorComponent {
     /**
      * Functions for deleting properties which have value "null"
      */
-
     deletePropsWithoutData(clearedFormData) {
         let formData = Object.assign({}, clearedFormData);
         Object.keys(formData).map((key) => {
@@ -90,7 +100,6 @@ export class FormGeneratorComponent {
     /**
      * Call functions for validate of all form fields
      */
-
     validateForm() {
         let validate = this.ajv.compile(this.schema);
         let dataValidate;
@@ -108,7 +117,6 @@ export class FormGeneratorComponent {
     /**
      * Function for flatting data object for validation
      */
-
     flatDataObject(data) {
         function flat(res, key, val, pre = '') {
             let prefix: any = [pre, key].filter(v => v).join('.').match(/\w+$/);
@@ -135,7 +143,6 @@ export class FormGeneratorComponent {
     /**
      * Getting fields based on properties in JSON-schema
      */
-
     createField(schemaProps: any, prop: any, schemaPropKey: any) {
         let {type} = schemaProps[prop];
         let Tag = this.mapping[type];
@@ -173,29 +180,9 @@ export class FormGeneratorComponent {
         })
     };
 
-    componentWillLoad() {
-        let mapKey;
-        this.data = Object.assign({}, this.form);
-
-        for (let i = 0; i < this.el.children.length; i++) {
-            let child = this.el.children[i];
-            if (child['for']) {
-                mapKey = child['for'];
-            } else {
-                mapKey = child.getAttribute('for');
-            }
-            this.mapping[mapKey] = child['localName'];
-        }
-    }
-
     render() {
-        /**
-         * Creating form fields and saving it to the let form
-         */
-
         let message: any = null;
         let schemaProps: any = this.schema.properties;
-
         let form: any = this.createForm(schemaProps, null);
 
         if (this.invalidMessage) {
