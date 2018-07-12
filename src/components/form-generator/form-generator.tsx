@@ -198,7 +198,6 @@ export class FormGeneratorComponent {
                     {message}
                     {form}
                 </div>
-                <slot name="slot-generator" />
                 <br/>
                 <input class="btn btn-outline-primary" type="submit" value="Validate" onClick={() => this.validateForm()}/>
             </div>
