@@ -5,6 +5,5 @@ exports.config = {
     // generateDistribution: true,
     // serviceWorker: true,
     outputTargets: [{ type: 'www' }, { type: 'dist' }],
-    copy: [{ src: 'lib' }],
     plugins: [sass()]
 };
