@@ -3,7 +3,7 @@ import Ajv from 'ajv/dist/ajv.min.js';
 
 @Component({
     tag: 'form-generator',
-    shadow: true,
+    shadow: false,
     styleUrl: 'form-generator.scss'
 })
 export class FormGeneratorComponent {
@@ -27,12 +27,23 @@ export class FormGeneratorComponent {
 
     @Listen('postValue')
     postValueHandler(CustomEvent) {
+        let fieldValue: any;
         this.changeValueChecked = true;
 
         let fieldId: any = CustomEvent.detail.id.match(/\w+$/)[0];
-        let fieldValue: any = CustomEvent.detail.type === 'checkbox' ? CustomEvent.detail.checked : CustomEvent.detail.value;
-        let currentFormData: any = this.data;
 
+        if (CustomEvent.detail.type === 'checkbox') {
+            fieldValue = CustomEvent.detail.checked;
+        } else if (CustomEvent.detail.hasAttribute('start-date')) {
+            fieldValue = {
+                endDate: (CustomEvent.detail.getAttribute('end-date') !== 'null') ? CustomEvent.detail.getAttribute('end-date') : null,
+                startDate: (CustomEvent.detail.getAttribute('start-date') !== 'null') ? CustomEvent.detail.getAttribute('start-date') : null
+            };
+        } else {
+            fieldValue = CustomEvent.detail.value;
+        }
+
+        let currentFormData: any = this.data;
         currentFormData = this.fillData(fieldId, fieldValue, currentFormData);
         let clearedFormData = Object.assign({}, currentFormData);
         this.changedData = this.deletePropsWithoutData(clearedFormData);
@@ -52,6 +63,8 @@ export class FormGeneratorComponent {
             }
             this.mapping[mapKey] = child['localName'];
         }
+
+        this.el.innerHTML = "";
     }
 
     /**
@@ -65,7 +78,8 @@ export class FormGeneratorComponent {
                     currentFormData[key][0] = fieldValue;
                 } else {
                     if (this.schema.properties[key] && this.schema.properties[key].format && this.schema.properties[key].format === "date") {
-                        currentFormData[key].dateValue = fieldValue;
+                        currentFormData[key].endDate = fieldValue.endDate;
+                        currentFormData[key].startDate = fieldValue.startDate;
                     } else {
                         currentFormData[key] = fieldValue;
                     }
@@ -144,8 +158,8 @@ export class FormGeneratorComponent {
      * Getting fields based on properties in JSON-schema
      */
     createField(schemaProps: any, prop: any, schemaPropKey: any) {
-        let {type} = schemaProps[prop];
-        let Tag = this.mapping[type];
+        let { type, format } = schemaProps[prop];
+        let Tag = this.mapping[(format === 'date') ? format : type];
         let labelContent: string = schemaProps[prop].labelContent;
         let placeholder: string = schemaProps[prop].placeholder;
         let id: string = schemaProps[prop].$id;
@@ -159,13 +173,19 @@ export class FormGeneratorComponent {
         }
 
         if (schemaProps[prop].format === "date") {
-            return <Tag id={id} format={elementFormat} for={elementType} value={this.value[prop].dateValue || ""}
-                        label={labelContent} placeholder={placeholder}/>;
+            return <Tag id={id}
+                        format={this.value[prop].dateFormat || ""}
+                        end-date={this.value[prop].endDate || ""}
+                        start-date={this.value[prop].startDate || ""}
+                        label={labelContent}/>;
         }
 
-        return <Tag id={id} format={elementFormat} for={elementType}
+        return <Tag id={id}
+                    for={elementType}
+                    format={elementFormat}
                     value={(this.value[prop] || this.value[prop] === false) ? JSON.stringify(this.value[prop]) : this.value[schemaPropKey][prop]}
-                    label={labelContent} placeholder={placeholder}/> || null;
+                    label={labelContent}
+                    placeholder={placeholder}/> || null;
 
     };
 

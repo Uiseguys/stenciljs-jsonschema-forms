@@ -1,9 +1,8 @@
 import {Component, State} from '@stencil/core';
-import moment from 'moment';
 
 @Component({
     tag: 'form-generator-page',
-    shadow: true,
+    shadow: false,
 })
 export class FormGeneratorPage {
     @State() schema: any;
@@ -12,7 +11,7 @@ export class FormGeneratorPage {
     componentWillLoad() {
         this.schema = {
             "type": "object",
-            "required": ["startDate", "endDate", "min", "max", "checked", "sources", "dateValue"],
+            "required": ["checked", "min", "max", "startDate", "endDate", "startDateString", "endDateString", "sources"],
             "properties": {
                 "checked": {
                     "$id": "data/properties/checked",
@@ -59,13 +58,25 @@ export class FormGeneratorPage {
                     "type": "object",
                     "format": "date",
                     "placeholder": "Select a Date",
-                    "dateValue": {
-                        "$id": "data/properties/date/dateValue",
+                    "startDate": {
+                        "$id": "data/properties/date/startDate",
+                        "type": "string"
+                    },
+                    "endDate": {
+                        "$id": "data/properties/date/endDate",
+                        "type": "string"
+                    },
+                    "lang": {
+                        "$id": "data/properties/date/lang",
+                        "type": "string"
+                    },
+                    "dateFormat": {
+                        "$id": "data/properties/date/dateFormat",
                         "type": "string"
                     }
                 },
-                "startDate": {
-                    "$id": "data/properties/startDate",
+                "startDateString": {
+                    "$id": "data/properties/startDateString",
                     "type": "string",
                     "labelContent": "The Startdate Schema",
                     "description": "An explanation about the purpose of this instance.",
@@ -75,8 +86,8 @@ export class FormGeneratorPage {
                         "2007-08-31T16:47+00:00"
                     ]
                 },
-                "endDate": {
-                    "$id": "data/properties/endDate",
+                "endDateString": {
+                    "$id": "data/properties/endDateString",
                     "type": "string",
                     "labelContent": "The Enddate Schema",
                     "description": "An explanation about the purpose of this instance.",
@@ -111,10 +122,13 @@ export class FormGeneratorPage {
                 "max": 10
             },
             "date": {
-                "dateValue": moment(new Date()).format('Do MMMM YYYY')
+                "startDate": "03/25/2018",
+                "endDate": "04/12/2018",
+                "lang": "en",
+                "dateFormat": "MM.DD.YYYY"
             },
-            "startDate": "2007-08-31T16:47+00:00",
-            "endDate": "2007-08-31T16:47+00:00",
+            "startDateString": "2007-08-31T16:47+00:00",
+            "endDateString": "2007-08-31T16:47+00:00",
             "sources": [
                 "source1",
                 "source2"
@@ -125,8 +139,9 @@ export class FormGeneratorPage {
     render() {
         return (
             <form-generator schema={this.schema} value={this.form}>
-                <input-generator for="integer"></input-generator>
-                <input-generator for="string"></input-generator>
+                <cwc-inlineedit for="integer"></cwc-inlineedit>
+                <cwc-inlineedit for="string"></cwc-inlineedit>
+                <cwc-datepicker for="date"></cwc-datepicker>
                 <input-generator for="object"></input-generator>
                 <dropdown-generator for="array"></dropdown-generator>
                 <checkbox-generator for="boolean"></checkbox-generator>
