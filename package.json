@@ -1,17 +1,24 @@
 {
   "name": "@ui-guys/form-generator",
   "private": false,
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "StencilJS implementation of forms generated using JSON Schema",
   "engines": {
     "node": ">=6.11.0 <9.0"
   },
-  "main": "dist/jsonschema.js",
-  "module": "dist/esm/index.js",
+  "main": "dist/index.js",
   "types": "dist/types/components.d.ts",
+  "module": "dist/esm/index.js",
   "collection": "dist/collection/collection-manifest.json",
   "files": [
     "dist/"
+  ],
+  "moduleFileExtensions": [
+    "ts",
+    "tsx",
+    "js",
+    "json",
+    "jsx"
   ],
   "scripts": {
     "build": "stencil build --no-cache",
@@ -23,21 +30,21 @@
     "prepublish": "stencil build --prod --es5"
   },
   "dependencies": {
-    "@stencil/core": "0.7.24",
+    "@stencil/core": "latest",
     "@stencil/dev-server": "latest",
-    "@stencil/router": "0.0.28",
-    "@stencil/sass": "0.0.2",
+    "@stencil/router": "latest",
+    "@stencil/sass": "latest",
     "@stencil/utils": "latest",
-    "@types/bootstrap": "^4.0.1",
+    "@types/bootstrap": "^4.1.2",
     "@types/jest": "^21.1.1",
-    "ajv": "^6.1.1",
-    "bootstrap": "^4.0.0",
-    "bootstrap.native": "^2.0.21",
+    "ajv": "^6.5.2",
+    "bootstrap": "^4.1.1",
+    "bootstrap.native": "^2.0.23",
     "http-server": "^0.11.1",
     "jest": "^21.2.1",
-    "moment": "^2.20.1",
+    "moment": "^2.22.2",
     "pikaday": "^1.7.0",
-    "tslint": "^5.7.0"
+    "tslint": "^5.10.0"
   },
   "devDependencies": {
     "@stencil/sass": "0.0.2"

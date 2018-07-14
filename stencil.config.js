@@ -1,20 +1,9 @@
 const sass = require('@stencil/sass');
 
 exports.config = {
-    namespace: 'jsonschema',
-    generateDistribution: true,
+    namespace: 'formGenerator',
+    // generateDistribution: true,
     // serviceWorker: true,
-    outputTargets: [
-        { type: 'www' },
-        { type: 'dist' }
-    ],
-    bundles: [],
-    plugins: [
-        sass()
-    ]
-};
-
-exports.devServer = {
-  root: 'www',
-  watchGlob: '**/**'
+    outputTargets: [{ type: 'www' }, { type: 'dist' }],
+    plugins: [sass()]
 };

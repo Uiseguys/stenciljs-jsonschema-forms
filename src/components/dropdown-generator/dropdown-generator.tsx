@@ -36,7 +36,7 @@ export class DropdownGeneratorComponent {
                 <div class="input-group-prepend">
                     <label class="input-group-text">{this.label}</label>
                 </div>
-                <select class="custom-select" id={this.id} value={this.currentValue} onClick={(event) => this.getSelectValues(event)}>
+                <select class="custom-select" id={this.id} data-value={this.currentValue} onClick={(event) => this.getSelectValues(event)}>
                     {parsedValue && parsedValue.map((value) =>
                         <option value={value}>{value}</option>
                     )}
