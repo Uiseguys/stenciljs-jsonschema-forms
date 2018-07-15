@@ -5,7 +5,7 @@ import 'bootstrap.native/dist/bootstrap-native-v4';
 @Component({
     tag: 'stenciljs-jsonschema-forms',
 })
-export class StencilBsDemoPage {
+export class FormGeneratorDemoPage {
     @Prop() root = '/';
     components = [
         {
