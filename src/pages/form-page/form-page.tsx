@@ -11,7 +11,7 @@ export class FormGeneratorPage {
     componentWillLoad() {
         this.schema = {
             "type": "object",
-            "required": ["checked", "min", "max", "startDate", "endDate", "startDateString", "endDateString", "sources"],
+            "required": ["checked", "min", "max", "startDate", "endDate", "startDateString", "endDateString", "sources", "autocomplete"],
             "properties": {
                 "checked": {
                     "$id": "data/properties/checked",
@@ -111,6 +111,41 @@ export class FormGeneratorPage {
                             "source1"
                         ]
                     }
+                },
+                "autocomplete": {
+                    "$id": "data/properties/autocomplete",
+                    "type": "array",
+                    "arrayType": "autocomplete",
+                    "items": {
+                        "$id": "/properties/autocomplete/items",
+                        "type": "object",
+                        "labelContent": "Autocomplete",
+                        "placeholder": "Search something e.g. 'Argentina'",
+                        "searchKey": "data.name",
+                        "data": [
+                            {
+                                "type": 'country',
+                                "data": {
+                                    "name": 'Austria',
+                                    "capital": 'Vienna'
+                                }
+                            },
+                            {
+                                "type": 'country',
+                                "data": {
+                                    "name": 'Australia',
+                                    "capital": 'Canberra'
+                                }
+                            },
+                            {
+                                "type": 'country',
+                                "data": {
+                                    "name": 'Argentina',
+                                    "capital": 'Buenos Aires'
+                                }
+                            }
+                        ]
+                    }
                 }
             }
         };
@@ -132,7 +167,8 @@ export class FormGeneratorPage {
             "sources": [
                 "source1",
                 "source2"
-            ]
+            ],
+            "autocomplete": []
         };
     };
 
@@ -143,6 +179,7 @@ export class FormGeneratorPage {
                 <cwc-inlineedit for="string"></cwc-inlineedit>
                 <cwc-datepicker for="date"></cwc-datepicker>
                 <input-generator for="object"></input-generator>
+                <cwc-autocomplete-select for="autocomplete"></cwc-autocomplete-select>
                 <dropdown-generator for="array"></dropdown-generator>
                 <checkbox-generator for="boolean"></checkbox-generator>
             </form-generator>

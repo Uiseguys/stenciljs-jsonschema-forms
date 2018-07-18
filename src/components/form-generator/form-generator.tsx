@@ -27,21 +27,14 @@ export class FormGeneratorComponent {
 
     @Listen('postValue')
     postValueHandler(CustomEvent) {
-        let fieldValue: any;
         this.changeValueChecked = true;
 
         let fieldId: any = CustomEvent.detail.id.match(/\w+$/)[0];
+        let fieldType: string = CustomEvent.detail.type;
 
-        if (CustomEvent.detail.type === 'checkbox') {
-            fieldValue = CustomEvent.detail.checked;
-        } else if (CustomEvent.detail.hasAttribute('start-date')) {
-            fieldValue = {
-                endDate: (CustomEvent.detail.getAttribute('end-date') !== 'null') ? CustomEvent.detail.getAttribute('end-date') : null,
-                startDate: (CustomEvent.detail.getAttribute('start-date') !== 'null') ? CustomEvent.detail.getAttribute('start-date') : null
-            };
-        } else {
-            fieldValue = CustomEvent.detail.value;
-        }
+        let fieldValue: any = (fieldType === 'checkbox') ?
+            CustomEvent.detail.checked
+            : CustomEvent.detail.value;
 
         let currentFormData: any = this.data;
         currentFormData = this.fillData(fieldId, fieldValue, currentFormData);
@@ -74,8 +67,16 @@ export class FormGeneratorComponent {
         Object.keys(currentFormData).map((key) => {
             if (key === fieldId) {
                 if (Array.isArray(currentFormData[key])) {
-                    currentFormData[key] = [];
-                    currentFormData[key][0] = fieldValue;
+                    if (Array.isArray(fieldValue)) {
+                        currentFormData[key] = fieldValue;
+                    } else {
+                        if (!fieldValue) {
+                            currentFormData[key] = fieldValue;
+                        } else {
+                            currentFormData[key] = [];
+                            currentFormData[key][0] = fieldValue;
+                        }
+                    }
                 } else {
                     if (this.schema.properties[key] && this.schema.properties[key].format && this.schema.properties[key].format === "date") {
                         currentFormData[key].endDate = fieldValue.endDate;
@@ -99,7 +100,7 @@ export class FormGeneratorComponent {
     deletePropsWithoutData(clearedFormData) {
         let formData = Object.assign({}, clearedFormData);
         Object.keys(formData).map((key) => {
-            if (formData[key] === null || formData[key] === false) {
+            if (!formData[key] || formData[key] === null || formData[key] === false || formData[key].length === 0) {
                 delete formData[key];
                 return formData;
             }
@@ -154,17 +155,25 @@ export class FormGeneratorComponent {
         return unchangedMessage.toString().replace(/\,(?!\,)/g, " ");
     };
 
+    getMappedElement(schemaProps) {
+        let { type, format, arrayType } = schemaProps;
+        if (format === 'date') { return format; }
+        if (arrayType === 'autocomplete') { return arrayType; }
+        return type;
+    }
+
     /**
      * Getting fields based on properties in JSON-schema
      */
     createField(schemaProps: any, prop: any, schemaPropKey: any) {
-        let { type, format } = schemaProps[prop];
-        let Tag = this.mapping[(format === 'date') ? format : type];
-        let labelContent: string = schemaProps[prop].labelContent;
-        let placeholder: string = schemaProps[prop].placeholder;
+        let Tag = this.mapping[this.getMappedElement(schemaProps[prop])];
+
         let id: string = schemaProps[prop].$id;
         let elementType: string = schemaProps[prop].type;
         let elementFormat: any = schemaProps[prop].format || null;
+        let labelContent: string = schemaProps[prop].labelContent;
+        let placeholder: string = schemaProps[prop].placeholder;
+
         this.allTitles[prop] = labelContent;
 
         if (!labelContent) {
@@ -177,7 +186,17 @@ export class FormGeneratorComponent {
                         format={this.value[prop].dateFormat || ""}
                         end-date={this.value[prop].endDate || ""}
                         start-date={this.value[prop].startDate || ""}
-                        label={labelContent}/>;
+                        label={labelContent}
+                    />;
+        }
+
+        if (schemaProps[prop].arrayType === "autocomplete") {
+            return <Tag id={id}
+                        data={schemaProps[prop].items.data || ""}
+                        searchKey={schemaProps[prop].items.searchKey || ""}
+                        label={labelContent}
+                        placeholder={schemaProps[prop].items.placeholder || ""}
+                    />;
         }
 
         return <Tag id={id}
