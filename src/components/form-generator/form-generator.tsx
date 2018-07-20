@@ -95,74 +95,6 @@ export class FormGeneratorComponent {
     };
 
     /**
-     * Functions for deleting properties which have value "null"
-     */
-    deletePropsWithoutData(clearedFormData) {
-        let formData = Object.assign({}, clearedFormData);
-        Object.keys(formData).map((key) => {
-            if (!formData[key] || formData[key] === null || formData[key] === false || formData[key].length === 0) {
-                delete formData[key];
-                return formData;
-            }
-            if ((typeof(formData[key]) === "object") && (!Array.isArray(formData[key]))) {
-                formData[key] = this.deletePropsWithoutData(formData[key]);
-            }
-        });
-
-        return formData;
-    };
-
-    /**
-     * Call functions for validate of all form fields
-     */
-    validateForm() {
-        let validate = this.ajv.compile(this.schema);
-        let dataValidate;
-        if (!this.changeValueChecked) {
-            // ajv.validate is not working with nested objects, so we have to make a flat clean clone to validate it,
-            // otherwise we should not use nested objects as it is working correctly without them
-            let flattedForm: any = this.deletePropsWithoutData(this.value);
-            dataValidate = validate(this.flatDataObject(flattedForm));
-        } else {
-            dataValidate = validate(this.flatDataObject(this.changedData));
-        }
-        dataValidate ? this.invalidMessage = null : this.invalidMessage = this.updateValidationMessage(validate);
-    };
-
-    /**
-     * Function for flatting data object for validation
-     */
-    flatDataObject(data) {
-        function flat(res, key, val, pre = '') {
-            let prefix: any = [pre, key].filter(v => v).join('.').match(/\w+$/);
-            return (typeof val === 'object' && (!Array.isArray(val)))
-                ? Object.keys(val).reduce((prev, curr) => flat(prev, curr, val[curr], prefix), res)
-                : Object.assign(res, {[prefix]: val});
-        }
-
-        return Object.keys(data).reduce((prev, curr) => flat(prev, curr, data[curr]), {});
-    }
-
-    updateValidationMessage(validate) {
-        let unchangedMessage: any = this.ajv.errorsText(validate.errors).replace(/\,?\w*\.?\w*\./g, "").split(" ");
-        Object.keys(this.allTitles).map((labelContent: string) => {
-            for (let el in unchangedMessage) {
-                if (unchangedMessage[el] === labelContent) {
-                    unchangedMessage[el] = this.allTitles[labelContent];
-                }
-            }
-        });
-        return unchangedMessage.toString().replace(/\,(?!\,)/g, " ");
-    };
-
-    getMappedElement(schemaProps) {
-        let { type, format, arrayType } = schemaProps;
-        if (format === 'date') { return format; }
-        if (arrayType === 'autocomplete') { return arrayType; }
-        return type;
-    }
-
-    /**
      * Getting fields based on properties in JSON-schema
      */
     createField(schemaProps: any, prop: any, schemaPropKey: any) {
@@ -192,10 +124,19 @@ export class FormGeneratorComponent {
 
         if (schemaProps[prop].arrayType === "autocomplete") {
             return <Tag id={id}
-                        data={schemaProps[prop].items.data || ""}
-                        searchKey={schemaProps[prop].items.searchKey || ""}
+                        data={schemaProps[prop].items.data}
+                        searchKey={schemaProps[prop].items.searchKey}
                         label={labelContent}
-                        placeholder={schemaProps[prop].items.placeholder || ""}
+                        placeholder={schemaProps[prop].items.placeholder}
+                    />;
+        }
+
+        if (schemaProps[prop].arrayType === "dropdown") {
+            return <Tag id={id}
+                        data={schemaProps[prop].items.data}
+                        label={labelContent}
+                        btnText={schemaProps[prop].items.buttonText}
+                        placeholder={schemaProps[prop].items.placeholder}
                     />;
         }
 
@@ -242,4 +183,73 @@ export class FormGeneratorComponent {
             </div>
         );
     }
+
+    /**
+     * Call functions for validate of all form fields
+     */
+    validateForm() {
+        let validate = this.ajv.compile(this.schema);
+        let dataValidate;
+        if (!this.changeValueChecked) {
+            // ajv.validate is not working with nested objects, so we have to make a flat clean clone to validate it,
+            // otherwise we should not use nested objects as it is working correctly without them
+            let flattedForm: any = this.deletePropsWithoutData(this.value);
+            dataValidate = validate(this.flatDataObject(flattedForm));
+        } else {
+            dataValidate = validate(this.flatDataObject(this.changedData));
+        }
+        dataValidate ? this.invalidMessage = null : this.invalidMessage = this.updateValidationMessage(validate);
+    };
+
+    /**
+     * Functions for deleting properties which have value "null"
+     */
+    deletePropsWithoutData(clearedFormData) {
+        let formData = Object.assign({}, clearedFormData);
+        Object.keys(formData).map((key) => {
+            if (!formData[key] || formData[key] === null || formData[key] === false || formData[key].length === 0) {
+                delete formData[key];
+                return formData;
+            }
+            if ((typeof(formData[key]) === "object") && (!Array.isArray(formData[key]))) {
+                formData[key] = this.deletePropsWithoutData(formData[key]);
+            }
+        });
+
+        return formData;
+    };
+
+    /**
+     * Function for flatting data object for validation
+     */
+    flatDataObject(data) {
+        function flat(res, key, val, pre = '') {
+            let prefix: any = [pre, key].filter(v => v).join('.').match(/\w+$/);
+            return (typeof val === 'object' && (!Array.isArray(val)))
+                ? Object.keys(val).reduce((prev, curr) => flat(prev, curr, val[curr], prefix), res)
+                : Object.assign(res, {[prefix]: val});
+        }
+
+        return Object.keys(data).reduce((prev, curr) => flat(prev, curr, data[curr]), {});
+    }
+
+    getMappedElement(schemaProps) {
+        let { type, format, arrayType } = schemaProps;
+        if (format === 'date') { return format; }
+        if (arrayType === 'autocomplete') { return arrayType; }
+        if (arrayType === 'dropdown') { return arrayType; }
+        return type;
+    }
+
+    updateValidationMessage(validate) {
+        let unchangedMessage: any = this.ajv.errorsText(validate.errors).replace(/\,?\w*\.?\w*\./g, "").split(" ");
+        Object.keys(this.allTitles).map((labelContent: string) => {
+            for (let el in unchangedMessage) {
+                if (unchangedMessage[el] === labelContent) {
+                    unchangedMessage[el] = this.allTitles[labelContent];
+                }
+            }
+        });
+        return unchangedMessage.toString().replace(/\,(?!\,)/g, " ");
+    };
 }

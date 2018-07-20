@@ -11,7 +11,7 @@ export class FormGeneratorPage {
     componentWillLoad() {
         this.schema = {
             "type": "object",
-            "required": ["checked", "min", "max", "startDate", "endDate", "startDateString", "endDateString", "sources", "autocomplete"],
+            "required": ["checked", "min", "max", "startDate", "endDate", "startDateString", "endDateString", "dropdown", "autocomplete"],
             "properties": {
                 "checked": {
                     "$id": "data/properties/checked",
@@ -97,19 +97,17 @@ export class FormGeneratorPage {
                         "2007-08-31T16:47+00:00"
                     ]
                 },
-                "sources": {
-                    "$id": "data/properties/sources",
+                "dropdown": {
+                    "$id": "data/properties/dropdown",
                     "type": "array",
+                    "arrayType": "dropdown",
                     "items": {
-                        "$id": "/properties/sources/items",
+                        "$id": "/properties/dropdown/items",
                         "type": "string",
-                        "labelContent": "Select",
-                        "description": "An explanation about the purpose of this instance.",
-                        "placeholder": "Select",
-                        "default": "",
-                        "examples": [
-                            "source1"
-                        ]
+                        "labelContent": "Dropdown",
+                        "buttonText": "Select",
+                        "placeholder": "Select a value",
+                        "data": ["Automatic", "Manual"]
                     }
                 },
                 "autocomplete": {
@@ -164,10 +162,7 @@ export class FormGeneratorPage {
             },
             "startDateString": "2007-08-31T16:47+00:00",
             "endDateString": "2007-08-31T16:47+00:00",
-            "sources": [
-                "source1",
-                "source2"
-            ],
+            "dropdown": [],
             "autocomplete": []
         };
     };
@@ -178,9 +173,10 @@ export class FormGeneratorPage {
                 <cwc-inlineedit for="integer"></cwc-inlineedit>
                 <cwc-inlineedit for="string"></cwc-inlineedit>
                 <cwc-datepicker for="date"></cwc-datepicker>
-                <input-generator for="object"></input-generator>
+                {/* <input-generator for="object"></input-generator> */}
                 <cwc-autocomplete-select for="autocomplete"></cwc-autocomplete-select>
-                <dropdown-generator for="array"></dropdown-generator>
+                {/* <dropdown-generator for="array"></dropdown-generator> */}
+                <cwc-combobox for="dropdown"></cwc-combobox>
                 <checkbox-generator for="boolean"></checkbox-generator>
             </form-generator>
         );
