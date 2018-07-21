@@ -83,15 +83,3 @@ $input-color: $cyan;
 select {
   -webkit-appearance: none;
 }
-
-.form-control {
-  border-top: 0px;
-  border-right: 0px;
-  border-left: 0px;
-  border-bottom-style: dotted;
-}
-
-.col-form-label,
-.form-check-label {
-  color: $gray-600;
-}
