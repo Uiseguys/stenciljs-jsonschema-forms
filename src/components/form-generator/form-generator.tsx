@@ -174,13 +174,13 @@ export class FormGeneratorComponent {
     }
 
     return (
-      <form>
+      <div>
         <div class="form-container">
           {message}
           {form}
         </div>
-        <button class="btn btn-primary" type="submit" onClick={() => this.validateForm()}>Validate</button>
-      </form>
+        <input class="btn btn-outline-primary" type="submit" value="Validate" onClick={() => this.validateForm()}/>
+    </div>
     );
   }
 
