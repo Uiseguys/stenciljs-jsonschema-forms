@@ -23,7 +23,7 @@ export class FormGeneratorPage {
             "type": "object",
             "placeholder": "Search something e.g. 'Argentina'",
             "searchKey": "data.name",
-            "data": [
+            "enum": [
               {
                 "type": 'country',
                 "data": {

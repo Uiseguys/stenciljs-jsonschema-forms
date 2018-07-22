@@ -118,7 +118,7 @@ export class FormGeneratorComponent {
     if (schemaProps[prop].arrayType === "autocomplete") {
       return (
         <Tag id={id}
-          data={schemaProps[prop].items.data}
+          data={schemaProps[prop].items.enum}
           searchKey={schemaProps[prop].items.searchKey}
           label={prop}
           placeholder={schemaProps[prop].items.placeholder}
