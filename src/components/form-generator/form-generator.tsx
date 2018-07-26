@@ -132,7 +132,9 @@ export class FormGeneratorComponent {
           data={schemaProps[prop].items.enum}
           label={prop}
           btnText={schemaProps[prop].items.buttonText}
+          btnLeftPosition={schemaProps[prop].items.buttonLeftPosition}
           placeholder={schemaProps[prop].items.placeholder}
+          readonly={schemaProps[prop].items.readonly}
         />
       );
     }
