@@ -30,24 +30,23 @@
     "prepublish": "stencil build --prod --es5"
   },
   "dependencies": {
-    "@stencil/core": "latest",
+    "@stencil/core": "^0.11.0",
     "@stencil/dev-server": "latest",
-    "@stencil/router": "latest",
-    "@stencil/sass": "latest",
+    "@stencil/router": "^0.2.5",
     "@stencil/utils": "latest",
     "@types/bootstrap": "^4.1.2",
-    "@types/jest": "^21.1.1",
+    "@types/jest": "^21.1.10",
     "ajv": "^6.5.2",
-    "bootstrap": "^4.1.1",
+    "bootstrap": "^4.1.3",
     "bootstrap.native": "^2.0.23",
     "http-server": "^0.11.1",
     "jest": "^21.2.1",
     "moment": "^2.22.2",
     "pikaday": "^1.7.0",
-    "tslint": "^5.10.0"
+    "tslint": "^5.11.0"
   },
   "devDependencies": {
-    "@stencil/sass": "0.0.2"
+    "@stencil/sass": "^0.1.0"
   },
   "repository": {
     "type": "git",
