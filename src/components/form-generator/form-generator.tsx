@@ -118,6 +118,7 @@ export class FormGeneratorComponent {
     if (schemaProps[prop].stringType === "textarea") {
       return (
         <Tag id={id}
+          label={prop}
           fencing={schemaProps[prop].fencing}
           html={schemaProps[prop].html}
           markdown={schemaProps[prop].markdown}
