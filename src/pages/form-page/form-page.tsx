@@ -12,7 +12,7 @@ export class FormGeneratorPage {
   componentWillLoad() {
     this.schema = {
       "type": "object",
-      "required": ["checkbox", "min", "max", "startDate", "endDate", "startDateString", "endDateString", "dropdown", "autocomplete"],
+      "required": ["checkbox", "min", "max", "startDate", "endDate", "startDateString", "endDateString", "dropdown", "autocomplete", "wysiwygEditor"],
       "properties": {
         "autocomplete": {
           "$id": "data/properties/autocomplete",
@@ -51,12 +51,7 @@ export class FormGeneratorPage {
         "checkbox": {
           "$id": "data/properties/checkbox",
           "type": "boolean",
-          "description": "An explanation about the purpose of this instance.",
-          "placeholder": "Check Me",
-          "default": false,
-          "examples": [
-            false
-          ]
+          "placeholder": "Check Me"
         },
         "duration": {
           "$id": "data/properties/duration",
@@ -65,22 +60,12 @@ export class FormGeneratorPage {
             "min": {
               "$id": "data/properties/duration/properties/min",
               "type": "integer",
-              "description": "An explanation about the purpose of this instance.",
-              "placeholder": "Min Value",
-              "default": 0,
-              "examples": [
-                5
-              ]
+              "placeholder": "Min Value"
             },
             "max": {
               "$id": "data/properties/duration/properties/max",
               "type": "integer",
-              "description": "An explanation about the purpose of this instance.",
-              "placeholder": "Max Value",
-              "default": 0,
-              "examples": [
-                10
-              ]
+              "placeholder": "Max Value"
             }
           }
         },
@@ -109,22 +94,12 @@ export class FormGeneratorPage {
         "startDateString": {
           "$id": "data/properties/startDateString",
           "type": "string",
-          "description": "An explanation about the purpose of this instance.",
-          "placeholder": "Start Date",
-          "default": "",
-          "examples": [
-            "2007-08-31T16:47+00:00"
-          ]
+          "placeholder": "Start Date"
         },
         "endDateString": {
           "$id": "data/properties/endDateString",
           "type": "string",
-          "description": "An explanation about the purpose of this instance.",
-          "placeholder": "End Date",
-          "default": "",
-          "examples": [
-            "2007-08-31T16:47+00:00"
-          ]
+          "placeholder": "End Date"
         },
         "dropdown": {
           "$id": "data/properties/dropdown",
@@ -139,6 +114,15 @@ export class FormGeneratorPage {
             "readonly": true,
             "enum": ["Automatic", "Manual"]
           }
+        },
+        "wysiwygEditor": {
+          "$id": "data/properties/wysiwygEditor",
+          "type": "string",
+          "stringType": "textarea",
+          "fencing": true,
+          "html": true,
+          "markdown": true,
+          "wysiwyg": true
         }
       }
     };
@@ -158,19 +142,21 @@ export class FormGeneratorPage {
       },
       "startDateString": "2007-08-31T16:47+00:00",
       "endDateString": "2007-08-31T16:47+00:00",
-      "dropdown": []
+      "dropdown": [],
+      "wysiwygEditor": "<strong>Initial Text</strong>"
     };
   };
 
   render() {
     return (
       <form-generator schema={this.schema} value={this.form}>
-        <cwc-inlineedit for="integer"></cwc-inlineedit>
-        <cwc-inlineedit for="string"></cwc-inlineedit>
-        <cwc-datepicker for="date"></cwc-datepicker>
-        <cwc-autocomplete-select for="autocomplete"></cwc-autocomplete-select>
-        <cwc-combobox for="dropdown"></cwc-combobox>
-        <checkbox-generator for="boolean"></checkbox-generator>
+        <cwc-inlineedit for="integer" />
+        <cwc-inlineedit for="string" />
+        <cwc-datepicker for="date" />
+        <cwc-autocomplete-select for="autocomplete" />
+        <cwc-combobox for="dropdown" />
+        <checkbox-generator for="boolean" />
+        <cwc-wysiwyg-editor for="textarea" />
       </form-generator>
     );
   }

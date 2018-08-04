@@ -115,6 +115,17 @@ export class FormGeneratorComponent {
       );
     }
 
+    if (schemaProps[prop].stringType === "textarea") {
+      return (
+        <Tag id={id}
+          fencing={schemaProps[prop].fencing}
+          html={schemaProps[prop].html}
+          markdown={schemaProps[prop].markdown}
+          wysiwyg={schemaProps[prop].wysiwyg}
+        >{this.value[prop]}</Tag>
+      );
+    }
+
     if (schemaProps[prop].arrayType === "autocomplete") {
       return (
         <Tag id={id}
@@ -236,8 +247,9 @@ export class FormGeneratorComponent {
   }
 
   getMappedElement(schemaProps) {
-    let { type, format, arrayType } = schemaProps;
+    let { type, format, arrayType, stringType } = schemaProps;
     if (format === 'date') { return format; }
+    if (stringType === 'textarea') { return stringType; }
     if (arrayType === 'autocomplete') { return arrayType; }
     if (arrayType === 'dropdown') { return arrayType; }
     return type;
