@@ -138,7 +138,6 @@ export class FormGeneratorComponent {
   }
 
   createDropdown(schemaProps: any, prop: any) {
-    console.log(schemaProps, prop);
     let Tag = this.mapping[this.getMappedElement(schemaProps[prop])];
     const { $id } = schemaProps[prop];
     const {
