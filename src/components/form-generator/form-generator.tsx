@@ -1,4 +1,4 @@
-import {Element, Component, Prop, State, Listen} from '@stencil/core';
+import { Element, Component, Prop, State, Listen } from '@stencil/core';
 import Ajv from 'ajv/dist/ajv.min.js';
 
 @Component({
@@ -16,11 +16,6 @@ export class FormGeneratorComponent {
   @State() invalidMessage: string = null;
   @State() changeValueChecked: boolean = false;
 
-  /**
-   * @desc Field data change callback
-   * @Prop {any} schema - JSON-schema
-   * @Prop {any} form - form for JSON-schema
-   */
   @Prop() schema: any;
   @Prop() value: any;
 
@@ -138,20 +133,48 @@ export class FormGeneratorComponent {
   }
 
   createDropdown(schemaProps: any, prop: any) {
+    let showField = true;
     let Tag = this.mapping[this.getMappedElement(schemaProps[prop])];
+    let { enum: items } = schemaProps[prop].items;
     const { $id } = schemaProps[prop];
     const {
-      buttonText, buttonLeftPosition, enum: items, placeholder, readonly,
+      buttonText, buttonLeftPosition, placeholder, readonly, if: ifCond
     } = schemaProps[prop].items;
+
+    if (ifCond) { showField = false; }
+
+    if (this.changedData && ifCond) {
+      const getItems = ({if: ifCond, then: thenCond, else: elseCond }) => {
+        const firstCond = Object.keys(ifCond)[0];
+        const changedData = Object.keys(this.changedData).find(key => key === firstCond);
+
+        if (firstCond === changedData) {
+          if (ifCond[firstCond].toString() === this.changedData[changedData].toString()) {
+            showField = true;
+            return thenCond.enum;
+          } else if (elseCond) {
+            return getItems({
+              if: elseCond.if,
+              then: elseCond.then,
+              else: elseCond.else
+            });
+          }
+        }
+      }
+
+      items = getItems(schemaProps[prop].items);
+    }
+
     return (
+      showField ?
       <Tag id={$id}
         label={prop}
-        data={items}
+        data={items || []}
         btnText={buttonText}
         btnLeftPosition={buttonLeftPosition}
         placeholder={placeholder}
         readonly={readonly}
-      />
+      /> : null
     );
   }
 
