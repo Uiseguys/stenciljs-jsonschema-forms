@@ -28,23 +28,19 @@ export class FormGeneratorComponent {
 
   @Listen('postValue')
   postValueHandler(CustomEvent) {
-    this.changeValueChecked = true;
-
-    let fieldId: any = CustomEvent.detail.id.match(/\w+$/)[0];
-    let fieldType: string = CustomEvent.detail.type;
-
-    let fieldValue: any = (fieldType === 'checkbox') ?
-      CustomEvent.detail.checked
-      : CustomEvent.detail.value;
-
+    const { id, checked, type, value } = CustomEvent.detail;
+    let fieldId: any = id.match(/\w+$/)[0];
+    let fieldValue: any = (type === 'checkbox') ? checked : value;
     let currentFormData: any = this.data;
+
+    this.changeValueChecked = true;
     currentFormData = this.fillData(fieldId, fieldValue, currentFormData);
     let clearedFormData = Object.assign({}, currentFormData);
     this.changedData = this.deletePropsWithoutData(clearedFormData);
   };
 
   componentWillLoad() {
-    let mapKey;
+    let mapKey: string;
     this.ajv = new Ajv({allErrors: true});
     this.data = Object.assign({}, this.value);
 
@@ -98,70 +94,104 @@ export class FormGeneratorComponent {
   /**
    * Getting fields based on properties in JSON-schema
    */
-  createField(schemaProps: any, prop: any, schemaPropKey: any) {
+
+  createDate(schemaProps: any, prop: any) {
     let Tag = this.mapping[this.getMappedElement(schemaProps[prop])];
-    let id: string = schemaProps[prop].$id;
-    let placeholder: string = schemaProps[prop].placeholder;
-    this.allTitles[prop] = prop;
-
-    if (schemaProps[prop].format === "date") {
-      return (
-        <Tag id={id}
-          format={this.value[prop].dateFormat}
-          end-date={this.value[prop].endDate}
-          start-date={this.value[prop].startDate}
-          label={prop}
-        />
-      );
-    }
-
-    if (schemaProps[prop].stringType === "textarea") {
-      return (
-        <Tag id={id}
-          label={prop}
-          fencing={schemaProps[prop].fencing}
-          html={schemaProps[prop].html}
-          markdown={schemaProps[prop].markdown}
-          wysiwyg={schemaProps[prop].wysiwyg}
-        >{this.value[prop]}</Tag>
-      );
-    }
-
-    if (schemaProps[prop].arrayType === "autocomplete") {
-      return (
-        <Tag id={id}
-          data={schemaProps[prop].items.enum}
-          searchKey={schemaProps[prop].items.searchKey}
-          label={prop}
-          placeholder={schemaProps[prop].items.placeholder}
-        />
-      );
-    }
-
-    if (schemaProps[prop].arrayType === "dropdown") {
-      return (
-        <Tag id={id}
-          data={schemaProps[prop].items.enum}
-          label={prop}
-          btnText={schemaProps[prop].items.buttonText}
-          btnLeftPosition={schemaProps[prop].items.buttonLeftPosition}
-          placeholder={schemaProps[prop].items.placeholder}
-          readonly={schemaProps[prop].items.readonly}
-        />
-      );
-    }
-
+    const { $id, dateFormat, endDate, startDate } = this.value[prop];
     return (
-      <Tag id={id}
-        for={schemaProps[prop].type}
-        format={schemaProps[prop].format || null}
+      <Tag id={$id}
+        label={prop}
+        format={dateFormat}
+        end-date={endDate}
+        start-date={startDate}
+      />
+    );
+  }
+
+  createTextarea(schemaProps: any, prop: any) {
+    let Tag = this.mapping[this.getMappedElement(schemaProps[prop])];
+    const { $id, fencing, html, markdown, wysiwyg } = schemaProps[prop];
+    return (
+      <Tag id={$id}
+        label={prop}
+        fencing={fencing}
+        html={html}
+        markdown={markdown}
+        wysiwyg={wysiwyg}
+      >
+        {this.value[prop]}
+      </Tag>
+    );
+  }
+
+  createAutocomplete(schemaProps: any, prop: any) {
+    let Tag = this.mapping[this.getMappedElement(schemaProps[prop])];
+    const { $id, enum: items, placeholder, searchKey } = schemaProps[prop].items;
+    return (
+      <Tag id={$id}
+        label={prop}
+        data={items}
+        searchKey={searchKey}
+        placeholder={placeholder}
+      />
+    );
+  }
+
+  createDropdown(schemaProps: any, prop: any) {
+    console.log(schemaProps, prop);
+    let Tag = this.mapping[this.getMappedElement(schemaProps[prop])];
+    const { $id } = schemaProps[prop];
+    const {
+      buttonText, buttonLeftPosition, enum: items, placeholder, readonly,
+    } = schemaProps[prop].items;
+    return (
+      <Tag id={$id}
+        label={prop}
+        data={items}
+        btnText={buttonText}
+        btnLeftPosition={buttonLeftPosition}
+        placeholder={placeholder}
+        readonly={readonly}
+      />
+    );
+  }
+
+  createDefault(schemaProps: any, prop: any, schemaPropKey: any) {
+    let Tag = this.mapping[this.getMappedElement(schemaProps[prop])];
+    const { $id, format, placeholder, type } = schemaProps[prop];
+    return (
+      <Tag id={$id}
+        for={type}
+        label={prop}
+        format={format || null}
         value={(this.value[prop] || this.value[prop] === false) ?
           JSON.stringify(this.value[prop])
           : this.value[schemaPropKey][prop]
         }
-        label={prop}
         placeholder={placeholder}/> || null
     );
+  }
+
+  createField(schemaProps: any, prop: any, schemaPropKey: any) {
+    const { arrayType, format, stringType } = schemaProps[prop];
+
+    if (format === "date") {
+      return this.createDate(schemaProps, prop);
+    }
+
+    if (stringType === "textarea") {
+      return this.createTextarea(schemaProps, prop);
+    }
+
+    if (arrayType === "autocomplete") {
+      return this.createAutocomplete(schemaProps, prop);
+    }
+
+    if (arrayType === "dropdown") {
+      return this.createDropdown(schemaProps, prop);
+    }
+
+    return this.createDefault(schemaProps, prop, schemaPropKey);
   };
 
   createForm(schemaProps, schemaPropKey) {
@@ -170,6 +200,7 @@ export class FormGeneratorComponent {
         schemaPropKey = prop;
         return this.createForm(schemaProps[prop].properties, schemaPropKey);
       } else {
+        this.allTitles[prop] = prop;
         return this.createField(schemaProps, prop, schemaPropKey);
       }
     })
