@@ -152,7 +152,7 @@ export class LinkedInterface {
                                 "then": { "enum": ["Office Low Ubuntu 1", "Office Low Ubuntu 2"] },
                                 "else": {
                                   "if": { "dropdown3": ["Ubuntu office - High Ubuntu"] },
-                                  "then": { "enum": ["Office High Ubuntu 1", "Office High Ubuntu 2"] },
+                                  "then": { "enum": ["Office High Ubuntu 1", "Office High Ubuntu 2"] }
                                 }
                               }
                             }
