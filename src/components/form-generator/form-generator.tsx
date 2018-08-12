@@ -151,7 +151,7 @@ export class FormGeneratorComponent {
         if (firstCond === changedData) {
           if (ifCond[firstCond].toString() === this.changedData[changedData].toString()) {
             showField = true;
-            return thenCond.enum;
+            return thenCond.data;
           } else if (elseCond) {
             return getItems({
               if: elseCond.if,

@@ -39,13 +39,13 @@ export class LinkedInterface {
             "placeholder": "Select a value",
             "readonly": true,
             "if": { "dropdown1": ["Windows"] },
-            "then": { "enum": ["7", "10"] },
+            "then": { "data": ["7", "10"] },
             "else": {
               "if": { "dropdown1": ["OSX"] },
-              "then": { "enum": ["High Sierra", "Mojave"] },
+              "then": { "data": ["High Sierra", "Mojave"] },
               "else": {
                 "if": { "dropdown1": ["Linux"] },
-                "then": { "enum": ["Linux Mint", "Ubuntu"] }
+                "then": { "data": ["Linux Mint", "Ubuntu"] }
               }
             },
             "enum": [
@@ -70,22 +70,22 @@ export class LinkedInterface {
             "placeholder": "Select a value",
             "readonly": true,
             "if": { "dropdown2": ["7"] },
-            "then": { "enum": ["Office Word 2007", "Notepad 2007"] },
+            "then": { "data": ["Office Word 2007", "Notepad 2007"] },
             "else": {
               "if": { "dropdown2": ["10"] },
-              "then": { "enum": ["Office Word 2010", "Notepad 2010"] },
+              "then": { "data": ["Office Word 2010", "Notepad 2010"] },
               "else": {
                 "if": { "dropdown2": ["High Sierra"] },
-                "then": { "enum": ["Libre office - Low Sierra", "Libre office - High Sierra"] },
+                "then": { "data": ["Libre office - Low Sierra", "Libre office - High Sierra"] },
                 "else": {
                   "if": { "dropdown2": ["Mojave"] },
-                  "then": { "enum": ["Libre office - Low Mojave", "Libre office - High Mojave"] },
+                  "then": { "data": ["Libre office - Low Mojave", "Libre office - High Mojave"] },
                   "else": {
                     "if": { "dropdown2": ["Linux Mint"] },
-                    "then": { "enum": ["Linux office - Linux Mint", "Linux office - Linux Chocollate"] },
+                    "then": { "data": ["Linux office - Linux Mint", "Linux office - Linux Chocollate"] },
                     "else": {
                       "if": { "dropdown2": ["Ubuntu"] },
-                      "then": { "enum": ["Ubuntu office - Low Ubuntu", "Ubuntu office - High Ubuntu"] }
+                      "then": { "data": ["Ubuntu office - Low Ubuntu", "Ubuntu office - High Ubuntu"] }
                     }
                   }
                 }
@@ -119,40 +119,40 @@ export class LinkedInterface {
             "placeholder": "Select a value",
             "readonly": true,
             "if": { "dropdown3": ["Office Word 2007"] },
-            "then": { "enum": ["Powerpoint", "SharePoint"] },
+            "then": { "data": ["Powerpoint", "SharePoint"] },
             "else": {
               "if": { "dropdown3": ["Notepad 2007"] },
-              "then": { "enum": ["Notepad Plus", "Notepad++"] },
+              "then": { "data": ["Notepad Plus", "Notepad++"] },
               "else": {
                 "if": { "dropdown3": ["Office Word 2010"] },
-                "then": { "enum": ["Outlook", "Excel"] },
+                "then": { "data": ["Outlook", "Excel"] },
                 "else": {
                   "if": { "dropdown3": ["Notepad 2010"] },
-                  "then": { "enum": ["Notepad Plus 2010", "Notepad++ 2010"] },
+                  "then": { "data": ["Notepad Plus 2010", "Notepad++ 2010"] },
                   "else": {
                     "if": { "dropdown3": ["Libre office - Low Sierra"] },
-                    "then": { "enum": ["Office Low Sierra 1", "Office Low Sierra 2"] },
+                    "then": { "data": ["Office Low Sierra 1", "Office Low Sierra 2"] },
                     "else": {
                       "if": { "dropdown3": ["Libre office - High Sierra"] },
-                      "then": { "enum": ["Office High Sierra 1", "Office High Sierra 2"] },
+                      "then": { "data": ["Office High Sierra 1", "Office High Sierra 2"] },
                       "else": {
                         "if": { "dropdown3": ["Libre office - Low Mojave"] },
-                        "then": { "enum": ["Office Low Mojave 1", "Office Low Mojave 2"] },
+                        "then": { "data": ["Office Low Mojave 1", "Office Low Mojave 2"] },
                         "else": {
                           "if": { "dropdown3": ["Libre office - High Mojave"] },
-                          "then": { "enum": ["Office High Mojave 1", "Office High Mojave 2"] },
+                          "then": { "data": ["Office High Mojave 1", "Office High Mojave 2"] },
                           "else": {
                             "if": { "dropdown3": ["Linux office - Linux Mint"] },
-                            "then": { "enum": ["Office Linux Mint 1", "Office Linux Mint 2"] },
+                            "then": { "data": ["Office Linux Mint 1", "Office Linux Mint 2"] },
                             "else": {
                               "if": { "dropdown3": ["Linux office - Linux Chocollate"] },
-                              "then": { "enum": ["Office Linux Chocollate 1", "Office Linux Chocollate 2"] },
+                              "then": { "data": ["Office Linux Chocollate 1", "Office Linux Chocollate 2"] },
                               "else": {
                                 "if": { "dropdown3": ["Ubuntu office - Low Ubuntu"] },
-                                "then": { "enum": ["Office Low Ubuntu 1", "Office Low Ubuntu 2"] },
+                                "then": { "data": ["Office Low Ubuntu 1", "Office Low Ubuntu 2"] },
                                 "else": {
                                   "if": { "dropdown3": ["Ubuntu office - High Ubuntu"] },
-                                  "then": { "enum": ["Office High Ubuntu 1", "Office High Ubuntu 2"] }
+                                  "then": { "data": ["Office High Ubuntu 1", "Office High Ubuntu 2"] }
                                 }
                               }
                             }
