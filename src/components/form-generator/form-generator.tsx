@@ -1,4 +1,4 @@
-import { Element, Component, Prop, State, Listen } from '@stencil/core';
+import { Element, Component, Prop, State, Listen, Event, EventEmitter } from '@stencil/core';
 import Ajv from 'ajv/dist/ajv.min.js';
 
 @Component({
@@ -10,16 +10,19 @@ import Ajv from 'ajv/dist/ajv.min.js';
 export class FormGeneratorComponent {
   mapping: Object = {}; // properties of the JSON schema
   ajv: any;
+
+  @Element() el: HTMLElement;
+
+  @Prop() schema: any;
+  @Prop() value: any;
+
   @State() allTitles: any = {};
   @State() data: any;
   @State() changedData: any;
   @State() invalidMessage: string = null;
   @State() changeValueChecked: boolean = false;
 
-  @Prop() schema: any;
-  @Prop() value: any;
-
-  @Element() el: HTMLElement;
+  @Event() onSubmit: EventEmitter;
 
   @Listen('postValue')
   postValueHandler(CustomEvent) {
@@ -33,6 +36,10 @@ export class FormGeneratorComponent {
     let clearedFormData = Object.assign({}, currentFormData);
     this.changedData = this.deletePropsWithoutData(clearedFormData);
   };
+
+  constructor() {
+      this.onSubmitHandler = this.onSubmitHandler.bind(this);
+  }
 
   componentWillLoad() {
     let mapKey: string;
@@ -246,9 +253,16 @@ export class FormGeneratorComponent {
           {message}
           {form}
         </div>
-        <input class="btn btn-outline-primary" type="submit" value="Validate" onClick={() => this.validateForm()}/>
+        <input class="btn btn-outline-primary" type="submit" value="Validate" onClick={this.onSubmitHandler}/>
     </div>
     );
+  }
+
+  onSubmitHandler() {
+    this.validateForm();
+    if (!this.invalidMessage) {
+      this.onSubmit.emit(this.value);
+    }
   }
 
   /**
