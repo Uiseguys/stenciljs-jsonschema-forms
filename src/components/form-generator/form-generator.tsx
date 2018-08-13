@@ -128,7 +128,8 @@ export class FormGeneratorComponent {
 
   createAutocomplete(schemaProps: any, prop: any) {
     let Tag = this.mapping[this.getMappedElement(schemaProps[prop])];
-    const { $id, enum: items, placeholder, searchKey } = schemaProps[prop].items;
+    const { $id } = schemaProps[prop];
+    const { enum: items, placeholder, searchKey } = schemaProps[prop].items;
     return (
       <Tag id={$id}
         label={prop}
