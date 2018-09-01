@@ -123,6 +123,34 @@ export class FormGeneratorPage {
           "html": true,
           "markdown": true,
           "wysiwyg": true
+        },
+        "vegetables": {
+          "type": "array",
+          "arrayType": "autocomplete",
+          "items": { "$ref": "#/definitions/veggie" }
+        }
+      },
+      "definitions": {
+        "veggie": {
+          "type": "object",
+          "placeholder": "Search something e.g. 'Argentina'",
+          "searchKey": "data.name",
+          "enum": [
+            {
+              "type": 'country',
+              "data": {
+                "name": 'Morcov',
+                "capital": 'Vienna'
+              }
+            },
+            {
+              "type": 'country',
+              "data": {
+                "name": 'Patrunjel',
+                "capital": 'Canberra'
+              }
+            }
+          ]
         }
       }
     };
@@ -143,7 +171,8 @@ export class FormGeneratorPage {
       "startDateString": "2007-08-31T16:47+00:00",
       "endDateString": "2007-08-31T16:47+00:00",
       "dropdown": [],
-      "wysiwygEditor": "<strong>Initial Text</strong>"
+      "wysiwygEditor": "<strong>Initial Text</strong>",
+      "vegetables": []
     };
   };
 

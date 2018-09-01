@@ -1,4 +1,4 @@
-import { Element, Component, Prop, State, Listen, Event, EventEmitter } from '@stencil/core';
+import { Element, Component, Prop, State, Listen, Watch, Event, EventEmitter } from '@stencil/core';
 import Ajv from 'ajv/dist/ajv.min.js';
 
 @Component({
@@ -8,10 +8,13 @@ import Ajv from 'ajv/dist/ajv.min.js';
 })
 
 export class FormGeneratorComponent {
-  mapping: Object = {}; // properties of the JSON schema
   ajv: any;
+  form: any = '';
+  schemaDefinitions: any;
+  mapping: Object = {}; // properties of the JSON schema
 
   @Element() el: HTMLElement;
+  @Event() onSubmit: EventEmitter;
 
   @Prop() schema: any;
   @Prop() value: any;
@@ -22,7 +25,20 @@ export class FormGeneratorComponent {
   @State() invalidMessage: string = null;
   @State() changeValueChecked: boolean = false;
 
-  @Event() onSubmit: EventEmitter;
+  constructor() {
+      this.onSubmitHandler = this.onSubmitHandler.bind(this);
+  }
+
+  componentWillLoad() {
+    this.ajv = new Ajv({allErrors: true});
+    this.data = Object.assign({}, this.value);
+    this.createFormElementsMapping();
+  }
+
+  componentDidLoad() {
+    this.schemaDefinitions = this.schema.definitions;
+    this.form = this.createForm(this.schema.properties, null);
+  }
 
   @Listen('postValue')
   postValueHandler(CustomEvent) {
@@ -37,15 +53,14 @@ export class FormGeneratorComponent {
     this.changedData = this.deletePropsWithoutData(clearedFormData);
   };
 
-  constructor() {
-      this.onSubmitHandler = this.onSubmitHandler.bind(this);
+  @Watch('schema')
+  renderForm() {
+    this.schemaDefinitions = this.schema.definitions;
+    this.form = this.createForm(this.schema.properties, null);
   }
 
-  componentWillLoad() {
+  createFormElementsMapping() {
     let mapKey: string;
-    this.ajv = new Ajv({allErrors: true});
-    this.data = Object.assign({}, this.value);
-
     for (let i = 0; i < this.el.children.length; i++) {
       let child = this.el.children[i];
       if (child['for']) {
@@ -58,6 +73,40 @@ export class FormGeneratorComponent {
 
     this.el.innerHTML = "";
   }
+
+  createForm(schemaProps, schemaPropKey) {
+    return Object.keys(schemaProps).map((prop: any) => {
+      if (schemaProps[prop].hasOwnProperty("properties")) {
+        schemaPropKey = prop;
+        return this.createForm(schemaProps[prop].properties, schemaPropKey);
+      } else {
+        this.allTitles[prop] = prop;
+        return this.createField(schemaProps, prop, schemaPropKey);
+      }
+    })
+  };
+
+  createField(schemaProps: any, prop: any, schemaPropKey: any) {
+    const { arrayType, format, stringType } = schemaProps[prop];
+
+    if (format === "date") {
+      return this.createDate(schemaProps, prop);
+    }
+
+    if (stringType === "textarea") {
+      return this.createTextarea(schemaProps, prop);
+    }
+
+    if (arrayType === "autocomplete") {
+      return this.createAutocomplete(schemaProps, prop);
+    }
+
+    if (arrayType === "dropdown") {
+      return this.createDropdown(schemaProps, prop);
+    }
+
+    return this.createDefault(schemaProps, prop, schemaPropKey);
+  };
 
   /**
    * Functions for filling data object
@@ -93,9 +142,10 @@ export class FormGeneratorComponent {
     return currentFormData;
   };
 
-  /**
-   * Getting fields based on properties in JSON-schema
-   */
+  getRefDefinition(property: any) {
+    let itemsRef = property.items.$ref.split('/').pop();
+    return this.schemaDefinitions[itemsRef];
+  }
 
   createDate(schemaProps: any, prop: any) {
     let Tag = this.mapping[this.getMappedElement(schemaProps[prop])];
@@ -129,7 +179,12 @@ export class FormGeneratorComponent {
   createAutocomplete(schemaProps: any, prop: any) {
     let Tag = this.mapping[this.getMappedElement(schemaProps[prop])];
     const { $id } = schemaProps[prop];
-    const { enum: items, placeholder, searchKey } = schemaProps[prop].items;
+    const propItems = schemaProps[prop].items.hasOwnProperty('$ref') ?
+      this.getRefDefinition(schemaProps[prop])
+      : schemaProps[prop].items;
+
+    const { enum: items, placeholder, searchKey } = propItems;
+
     return (
       <Tag id={$id}
         label={prop}
@@ -143,11 +198,15 @@ export class FormGeneratorComponent {
   createDropdown(schemaProps: any, prop: any) {
     let showField = true;
     let Tag = this.mapping[this.getMappedElement(schemaProps[prop])];
-    let { enum: items } = schemaProps[prop].items;
     const { $id } = schemaProps[prop];
+    const propItems = schemaProps[prop].items.hasOwnProperty('$ref') ?
+      this.getRefDefinition(schemaProps[prop])
+      : schemaProps[prop].items;
+
+    let { enum: items } = propItems;
     const {
       buttonText, buttonLeftPosition, placeholder, readonly, if: ifCond
-    } = schemaProps[prop].items;
+    } = propItems;
 
     if (ifCond) { showField = false; }
 
@@ -202,62 +261,22 @@ export class FormGeneratorComponent {
     );
   }
 
-  createField(schemaProps: any, prop: any, schemaPropKey: any) {
-    const { arrayType, format, stringType } = schemaProps[prop];
-
-    if (format === "date") {
-      return this.createDate(schemaProps, prop);
-    }
-
-    if (stringType === "textarea") {
-      return this.createTextarea(schemaProps, prop);
-    }
-
-    if (arrayType === "autocomplete") {
-      return this.createAutocomplete(schemaProps, prop);
-    }
-
-    if (arrayType === "dropdown") {
-      return this.createDropdown(schemaProps, prop);
-    }
-
-    return this.createDefault(schemaProps, prop, schemaPropKey);
-  };
-
-  createForm(schemaProps, schemaPropKey) {
-    return Object.keys(schemaProps).map((prop: any) => {
-      if (schemaProps[prop].hasOwnProperty("properties")) {
-        schemaPropKey = prop;
-        return this.createForm(schemaProps[prop].properties, schemaPropKey);
-      } else {
-        this.allTitles[prop] = prop;
-        return this.createField(schemaProps, prop, schemaPropKey);
-      }
-    })
-  };
-
   render() {
-    let message: any = null;
-    let schemaProps: any = this.schema.properties;
-    let form: any = this.createForm(schemaProps, null);
-
-    if (this.invalidMessage) {
-      message =
-        <div class="alert alert-danger">
-          <span>{this.invalidMessage}</span>
-        </div>;
-    }
-
     return (
       <div>
         <div class="form-container">
-          {message}
-          {form}
+          {this.invalidMessage && (
+            <div class="alert alert-danger">
+              <span>{this.invalidMessage}</span>
+            </div>
+          )}
+          {this.form}
         </div>
         <input class="btn btn-outline-primary" type="submit" value="Validate" onClick={this.onSubmitHandler}/>
     </div>
     );
   }
+
 
   onSubmitHandler() {
     this.validateForm();
