@@ -9,8 +9,7 @@ import Ajv from 'ajv/dist/ajv.min.js';
 
 export class FormGeneratorComponent {
   ajv: any;
-  form: any = '';
-  schemaDefinitions: any;
+
   mapping: Object = {}; // properties of the JSON schema
 
   @Element() el: HTMLElement;
@@ -19,6 +18,8 @@ export class FormGeneratorComponent {
   @Prop() schema: any;
   @Prop() value: any;
 
+  @State() form: any = '';
+  @State() schemaDefinitions: any;
   @State() allTitles: any = {};
   @State() data: any;
   @State() changedData: any;
