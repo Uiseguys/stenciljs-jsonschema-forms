@@ -179,8 +179,9 @@ export class FormGeneratorPage {
   render() {
     return (
       <form-generator schema={this.schema} value={this.form}>
-        <cwc-inlineedit for="integer" />
         <cwc-inlineedit for="string" />
+        <cwc-inlineedit for="integer" />
+        <cwc-inlineedit for="number" />
         <cwc-datepicker for="date" />
         <cwc-autocomplete-select for="autocomplete" />
         <cwc-combobox for="dropdown" />

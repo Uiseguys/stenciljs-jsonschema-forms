@@ -25,21 +25,6 @@ export class FormGeneratorComponent {
   @State() invalidMessage: string = null;
   @State() changeValueChecked: boolean = false;
 
-  constructor() {
-      this.onSubmitHandler = this.onSubmitHandler.bind(this);
-  }
-
-  componentWillLoad() {
-    this.ajv = new Ajv({allErrors: true});
-    this.data = Object.assign({}, this.value);
-    this.createFormElementsMapping();
-  }
-
-  componentDidLoad() {
-    this.schemaDefinitions = this.schema.definitions;
-    this.form = this.createForm(this.schema.properties, null);
-  }
-
   @Listen('postValue')
   postValueHandler(CustomEvent) {
     const { id, checked, type, value } = CustomEvent.detail;
@@ -55,6 +40,21 @@ export class FormGeneratorComponent {
 
   @Watch('schema')
   renderForm() {
+    this.schemaDefinitions = this.schema.definitions;
+    this.form = this.createForm(this.schema.properties, null);
+  }
+
+  constructor() {
+    this.onSubmitHandler = this.onSubmitHandler.bind(this);
+  }
+
+  componentWillLoad() {
+    this.ajv = new Ajv({allErrors: true});
+    this.data = Object.assign({}, this.value);
+    this.createFormElementsMapping();
+  }
+
+  componentDidLoad() {
     this.schemaDefinitions = this.schema.definitions;
     this.form = this.createForm(this.schema.properties, null);
   }
