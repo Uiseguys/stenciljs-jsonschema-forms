@@ -281,7 +281,7 @@ export class FormGeneratorComponent {
   onSubmitHandler() {
     this.validateForm();
     if (!this.invalidMessage) {
-      this.onSubmit.emit(this.changedData);
+      this.onSubmit.emit(this.changedData ? this.changedData : this.value);
     }
   }
 
