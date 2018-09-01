@@ -1,7 +1,7 @@
 {
   "name": "@ui-guys/form-generator",
   "private": false,
-  "version": "0.2.17",
+  "version": "0.2.18",
   "description": "StencilJS implementation of forms generated using JSON Schema",
   "engines": {
     "node": ">=6.11.0 <9.0"
