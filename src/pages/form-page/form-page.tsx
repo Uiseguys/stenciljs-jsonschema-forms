@@ -125,6 +125,7 @@ export class FormGeneratorPage {
           "wysiwyg": true
         },
         "vegetables": {
+          "$id": "data/properties/vegetables",
           "type": "array",
           "arrayType": "autocomplete",
           "items": { "$ref": "#/definitions/veggie" }
@@ -133,24 +134,19 @@ export class FormGeneratorPage {
       "definitions": {
         "veggie": {
           "type": "object",
-          "placeholder": "Search something e.g. 'Argentina'",
-          "searchKey": "data.name",
-          "enum": [
-            {
-              "type": 'country',
-              "data": {
-                "name": 'Morcov',
-                "capital": 'Vienna'
-              }
+          "properties": {
+            "veggieName": {
+              "type": "string",
+              "description": "The name of the vegetable."
             },
-            {
-              "type": 'country',
-              "data": {
-                "name": 'Patrunjel',
-                "capital": 'Canberra'
-              }
+            "veggieLike": {
+              "type": "boolean",
+              "description": "Do I like this vegetable?"
             }
-          ]
+          },
+          "searchKey": "veggieName",
+          "required": [ "veggieName", "veggieLike" ],
+          "placeholder": "Search something e.g. 'Argentina'"
         }
       }
     };
@@ -172,7 +168,16 @@ export class FormGeneratorPage {
       "endDateString": "2007-08-31T16:47+00:00",
       "dropdown": [],
       "wysiwygEditor": "<strong>Initial Text</strong>",
-      "vegetables": []
+      "vegetables": [
+        {
+          "veggieName": "potato",
+          "veggieLike": true
+        },
+        {
+          "veggieName": "broccoli",
+          "veggieLike": false
+        }
+      ]
     };
   };
 

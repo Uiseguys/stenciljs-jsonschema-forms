@@ -189,7 +189,7 @@ export class FormGeneratorComponent {
     return (
       <Tag id={$id}
         label={prop}
-        data={items}
+        data={items || this.value[prop]}
         searchKey={searchKey}
         placeholder={placeholder}
       />
@@ -237,7 +237,7 @@ export class FormGeneratorComponent {
       showField ?
       <Tag id={$id}
         label={prop}
-        data={items || []}
+        data={items || this.value[prop]}
         btnText={buttonText}
         btnLeftPosition={buttonLeftPosition}
         placeholder={placeholder}
