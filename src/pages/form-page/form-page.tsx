@@ -133,6 +133,7 @@ export class FormGeneratorPage {
       },
       "definitions": {
         "veggie": {
+          "$id": "data/properties/vegetables#/definitions/veggie",
           "type": "object",
           "properties": {
             "veggieName": {
