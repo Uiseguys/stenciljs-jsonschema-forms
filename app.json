@@ -1,5 +1,5 @@
 {
-  "name": "stencil-bs-ui-lib",
+  "name": "stenciljs-jsonschema-forms",
   "scripts": {
     "postdeploy": "npm run build"
   },
