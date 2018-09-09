@@ -26,7 +26,7 @@ export class FormGeneratorComponent {
   @State() invalidMessage: string = null;
   @State() changeValueChecked: boolean = false;
 
-  @Listen('postValue')
+  @Listen('onChange')
   postValueHandler(CustomEvent) {
     const { id, checked, type, value } = CustomEvent.detail;
     let fieldId: any = id.match(/\w+$/)[0];
@@ -150,13 +150,15 @@ export class FormGeneratorComponent {
 
   createDate(schemaProps: any, prop: any) {
     let Tag = this.mapping[this.getMappedElement(schemaProps[prop])];
-    const { $id, dateFormat, endDate, startDate } = this.value[prop];
+    const { $id } = schemaProps[prop];
+    const { dateFormat, endDate, lang, startDate } = this.value[prop];
     return (
       <Tag id={$id}
         label={prop}
         format={dateFormat}
         end-date={endDate}
         start-date={startDate}
+        lang={lang}
       />
     );
   }
