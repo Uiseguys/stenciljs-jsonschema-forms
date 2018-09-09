@@ -64,7 +64,7 @@ export class FormGeneratorComponent {
     let mapKey: string;
     for (let i = 0; i < this.el.children.length; i++) {
       let child = this.el.children[i];
-      mapKey = child.getAttribute('for');
+      mapKey = child['for'] ? child['for'] : child.getAttribute('for');
       this.mapping[mapKey] = child['localName'];
     }
 

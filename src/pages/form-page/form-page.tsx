@@ -13,6 +13,12 @@ export class FormGeneratorPage {
     this.schema = {
       "type": "object",
       "properties": {
+        "checkbox": {
+          "$id": "data/properties/checkbox",
+          "type": "boolean",
+          "title": "Checkbox Title",
+          "description": "Check Me"
+        },
         "title": {
           "$id": "data/properties/title",
           "type": "string",
@@ -38,11 +44,12 @@ export class FormGeneratorPage {
           "description": "Please provide a long description"
         }
       },
-      "required": ["title", "authorFirstName", "authorLastName", "description"],
+      "required": ["checkbox", "title", "authorFirstName", "authorLastName", "description"],
       "definitions": {}
     };
 
     this.form = {
+      "checkbox": false,
       "title": "My Title",
       "authorFirstName": "John",
       "authorLastName": "Doe",
@@ -228,15 +235,16 @@ export class FormGeneratorPage {
 
   render() {
     // <form-generator schema={this.schema} value={this.form}>
-    //   <cwc-inlineedit forType="string" />
-    //   <cwc-datepicker forType="date" />
-    //   <cwc-autocomplete-select forType="autocomplete" />
-    //   <cwc-combobox forType="dropdown" />
-    //   <checkbox-generator forType="boolean" />
-    //   <cwc-wysiwyg-editor forType="textarea" />
+    //   <cwc-inlineedit for="string" />
+    //   <cwc-datepicker for="date" />
+    //   <cwc-autocomplete-select for="autocomplete" />
+    //   <cwc-combobox for="dropdown" />
+    //   <checkbox-generator for="boolean" />
+    //   <cwc-wysiwyg-editor for="textarea" />
     // </form-generator>
     return (
       <form-generator schema={this.schema} value={this.form}>
+        <checkbox-generator for="boolean" />
         <cwc-inlineedit for="string" />
         <cwc-inlineedit-textarea for="data/properties/description" />
       </form-generator>
