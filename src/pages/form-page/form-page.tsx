@@ -12,6 +12,46 @@ export class FormGeneratorPage {
   componentWillLoad() {
     this.schema = {
       "type": "object",
+      "properties": {
+        "title": {
+          "$id": "data/properties/title",
+          "type": "string",
+          "title": "Title",
+          "description": "Please provide a title for this"
+        },
+        "authorFirstName": {
+          "$id": "data/properties/authorFirstName",
+          "type": "string",
+          "title": "First Name",
+          "description": "Please provide your first name"
+        },
+        "authorLastName": {
+          "$id": "data/properties/authorLastName",
+          "type": "string",
+          "title": "Last Name",
+          "description": "Please provide your last name"
+        },
+        "description": {
+          "$id": "data/properties/description",
+          "type": "string",
+          "title": "Description",
+          "description": "Please provide a long description"
+        }
+      },
+      "required": ["title", "authorFirstName", "authorLastName", "description"],
+      "definitions": {}
+    };
+
+    this.form = {
+      "title": "My Title",
+      "authorFirstName": "John",
+      "authorLastName": "Doe",
+      "description": "Lorem ipsum"
+    };
+
+    /*
+    this.schema = {
+      "type": "object",
       "required": ["checkbox", "min", "max", "startDate", "endDate", "startDateString", "endDateString", "dropdown", "autocomplete", "wysiwygEditor"],
       "properties": {
         "autocomplete": {
@@ -59,12 +99,12 @@ export class FormGeneratorPage {
           "properties": {
             "min": {
               "$id": "data/properties/duration/properties/min",
-              "type": "integer",
+              "type": "string",
               "placeholder": "Min Value"
             },
             "max": {
               "$id": "data/properties/duration/properties/max",
-              "type": "integer",
+              "type": "string",
               "placeholder": "Max Value"
             }
           }
@@ -151,7 +191,9 @@ export class FormGeneratorPage {
         }
       }
     };
+    */
 
+    /*
     this.form = {
       "autocomplete": [],
       "checkbox": false,
@@ -181,17 +223,22 @@ export class FormGeneratorPage {
       ]
     };
   };
+  */
+  }
 
   render() {
-    // <cwc-inlineedit-textarea for="string" />
+    // <form-generator schema={this.schema} value={this.form}>
+    //   <cwc-inlineedit forType="string" />
+    //   <cwc-datepicker forType="date" />
+    //   <cwc-autocomplete-select forType="autocomplete" />
+    //   <cwc-combobox forType="dropdown" />
+    //   <checkbox-generator forType="boolean" />
+    //   <cwc-wysiwyg-editor forType="textarea" />
+    // </form-generator>
     return (
       <form-generator schema={this.schema} value={this.form}>
         <cwc-inlineedit for="string" />
-        <cwc-datepicker for="date" />
-        <cwc-autocomplete-select for="autocomplete" />
-        <cwc-combobox for="dropdown" />
-        <checkbox-generator for="boolean" />
-        <cwc-wysiwyg-editor for="textarea" />
+        <cwc-inlineedit-textarea for="data/properties/description" />
       </form-generator>
     );
   }

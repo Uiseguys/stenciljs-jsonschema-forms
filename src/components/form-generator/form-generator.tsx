@@ -64,11 +64,7 @@ export class FormGeneratorComponent {
     let mapKey: string;
     for (let i = 0; i < this.el.children.length; i++) {
       let child = this.el.children[i];
-      if (child['for']) {
-        mapKey = child['for'];
-      } else {
-        mapKey = child.getAttribute('for');
-      }
+      mapKey = child.getAttribute('for');
       this.mapping[mapKey] = child['localName'];
     }
 
@@ -148,6 +144,7 @@ export class FormGeneratorComponent {
     return this.schemaDefinitions[itemsRef];
   }
 
+  // TODO: These fn should dissapear at some point
   createDate(schemaProps: any, prop: any) {
     let Tag = this.mapping[this.getMappedElement(schemaProps[prop])];
     const { $id } = schemaProps[prop];
@@ -247,20 +244,21 @@ export class FormGeneratorComponent {
       /> : null
     );
   }
+  // TODO: These fn should dissapear at some point
 
   createDefault(schemaProps: any, prop: any, schemaPropKey: any) {
-    let Tag = this.mapping[this.getMappedElement(schemaProps[prop])];
-    const { $id, format, placeholder, type } = schemaProps[prop];
+    let Tag = this.getMappedElement(schemaProps[prop]);
+    const { $id, title, description, format, type } = schemaProps[prop];
     return (
       <Tag id={$id}
         for={type}
-        label={prop}
-        format={format || null}
+        label={title}
+        format={format}
         value={(this.value[prop] || this.value[prop] === false) ?
           JSON.stringify(this.value[prop])
           : this.value[schemaPropKey][prop]
         }
-        placeholder={placeholder}/> || null
+        placeholder={description}/> || null
     );
   }
 
@@ -338,12 +336,18 @@ export class FormGeneratorComponent {
   }
 
   getMappedElement(schemaProps) {
-    let { type, format, arrayType, stringType } = schemaProps;
+    let { $id, type, format, arrayType, stringType } = schemaProps;
+    // TODO: need to refactor this
     if (format === 'date') { return format; }
     if (stringType === 'textarea') { return stringType; }
     if (arrayType === 'autocomplete') { return arrayType; }
     if (arrayType === 'dropdown') { return arrayType; }
-    return type;
+
+    if (this.mapping[$id]) {
+      return this.mapping[$id];
+    } else {
+      return this.mapping[type];
+    }
   }
 
   updateValidationMessage(validate) {
