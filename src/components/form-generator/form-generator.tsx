@@ -87,37 +87,38 @@ export class FormGeneratorComponent {
         return this.createForm(schemaProps[prop].properties, schemaPropKey);
       } else {
         this.allTitles[prop] = prop;
-        return this.createField(schemaProps, prop, schemaPropKey);
+        return this.createField(schemaProps, prop);
       }
     })
   };
 
-  createField(schemaProps: any, prop: any, schemaPropKey: any) {
-    const { arrayType, format, stringType } = schemaProps[prop];
+  createField(schemaProps: any, prop: any) {
+    // const { arrayType, format, stringType } = schemaProps[prop];
 
-    if (format === "date") {
-      return this.createDate(schemaProps, prop);
-    }
+    // if (format === "date") {
+    //   return this.createDate(schemaProps, prop);
+    // }
+    //
+    // if (stringType === "textarea") {
+    //   return this.createTextarea(schemaProps, prop);
+    // }
+    //
+    // if (arrayType === "autocomplete") {
+    //   return this.createAutocomplete(schemaProps, prop);
+    // }
+    //
+    // if (arrayType === "dropdown") {
+    //   return this.createDropdown(schemaProps, prop);
+    // }
 
-    if (stringType === "textarea") {
-      return this.createTextarea(schemaProps, prop);
-    }
-
-    if (arrayType === "autocomplete") {
-      return this.createAutocomplete(schemaProps, prop);
-    }
-
-    if (arrayType === "dropdown") {
-      return this.createDropdown(schemaProps, prop);
-    }
-
-    return this.createDefault(schemaProps, prop, schemaPropKey);
+    return this.createDefault(schemaProps, prop);
   };
 
   /**
    * Functions for filling data object
    */
   fillData(fieldId, fieldValue, currentFormData) {
+    /* TODO: Need to refactor this */
     Object.keys(currentFormData).map((key) => {
       if (key === fieldId) {
         if (Array.isArray(currentFormData[key])) {
@@ -154,6 +155,7 @@ export class FormGeneratorComponent {
   }
 
   /* TODO: These fn should dissapear at some point */
+  /*
   createDate(schemaProps: any, prop: any) {
     let Tag = this.mapping[this.getMappedElement(schemaProps[prop])];
     const { $id } = schemaProps[prop];
@@ -254,12 +256,15 @@ export class FormGeneratorComponent {
       /> : null
     );
   }
+  */
   /* TODO: These fn should dissapear at some point */
 
-  createDefault(schemaProps: any, prop: any, schemaPropKey: any) {
+  createDefault(schemaProps: any, prop: any) {
     let propItems: any;
     let { Tag, props } = this.getMappedElement(schemaProps[prop]);
-    const { $id, type, title, description, items } = schemaProps[prop];
+    const {
+      $id, type, title, description, items, enum: enumItems,
+    } = schemaProps[prop];
 
     /* <for arrays> */
     if (items) {
@@ -272,17 +277,19 @@ export class FormGeneratorComponent {
     return (
       <Tag
         id={$id}
-        label={title}
-        value={
-          (this.value[prop] || this.value[prop] === false) ?
-            JSON.stringify(this.value[prop])
-            : this.value[schemaPropKey][prop]
-        }
-        data={propItems && propItems.enum || null}
-        searchKey={props && props.searchKey || null}
-        placeholder={description}
+        label={title || null}
+        value={this.value[prop] || null}
+        data={propItems && propItems.enum || enumItems || null}
+        placeholder={description || null}
         for={type} // TODO: this should dissapear
-      /> || null
+
+        searchKey={props && props.searchKey || null}
+
+        fencing={props && props.fencing || null}
+        html={props && props.html || null}
+        markdown={props && props.markdown || null}
+        wysiwyg={props && props.wysiwyg || null}
+      >{this.value[prop]}</Tag> || null
     );
   }
 
@@ -360,12 +367,15 @@ export class FormGeneratorComponent {
   }
 
   getMappedElement(schemaProps) {
-    let { $id, type, format, arrayType, stringType } = schemaProps;
-    // TODO: need to refactor this
+    let { $id, type } = schemaProps;
+    /* TODO: These should dissapear at some point */
+    /*
     if (format === 'date') { return format; }
     if (stringType === 'textarea') { return stringType; }
     if (arrayType === 'autocomplete') { return arrayType; }
     if (arrayType === 'dropdown') { return arrayType; }
+    */
+    /* TODO: These should dissapear at some point */
 
     if (this.mapping[$id]) {
       return this.mapping[$id];

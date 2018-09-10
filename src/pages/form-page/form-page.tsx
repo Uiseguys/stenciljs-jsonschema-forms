@@ -6,98 +6,12 @@ import {Component, State} from '@stencil/core';
 })
 
 export class FormGeneratorPage {
+  wysiwygProps: any;
   autocompleteProps: any;
   @State() schema: any;
   @State() form: any;
 
   componentWillLoad() {
-    this.schema = {
-      "type": "object",
-      "properties": {
-        "checkbox": {
-          "$id": "data/properties/checkbox",
-          "type": "boolean",
-          "title": "Checkbox",
-          "description": "Check Me"
-        },
-        "title": {
-          "$id": "data/properties/title",
-          "type": "string",
-          "title": "Title",
-          "description": "Please provide a title for this"
-        },
-        "authorFirstName": {
-          "$id": "data/properties/authorFirstName",
-          "type": "string",
-          "title": "First Name",
-          "description": "Please provide your first name"
-        },
-        "authorLastName": {
-          "$id": "data/properties/authorLastName",
-          "type": "string",
-          "title": "Last Name",
-          "description": "Please provide your last name"
-        },
-        "description": {
-          "$id": "data/properties/description",
-          "type": "string",
-          "title": "Description",
-          "description": "Please provide a long description"
-        },
-        "autocomplete": {
-          "$id": "data/properties/autocomplete",
-          "type": "array",
-          "title": "Autocomplete",
-          "description": "Array me!",
-          "items": {
-            "$id": "/properties/autocomplete/items",
-            "type": "object",
-            "enum": [
-              {
-                "type": 'country',
-                "data": {
-                  "name": 'Austria',
-                  "capital": 'Vienna'
-                }
-              },
-              {
-                "type": 'country',
-                "data": {
-                  "name": 'Australia',
-                  "capital": 'Canberra'
-                }
-              },
-              {
-                "type": 'country',
-                "data": {
-                  "name": 'Argentina',
-                  "capital": 'Buenos Aires'
-                }
-              }
-            ]
-          }
-        }
-      },
-      "required": [
-        "checkbox",
-        "title",
-        "authorFirstName",
-        "authorLastName",
-        "description",
-        "autocomplete"
-      ],
-      "definitions": {}
-    };
-
-    this.form = {
-      "checkbox": false,
-      "title": "My Title",
-      "authorFirstName": "John",
-      "authorLastName": "Doe",
-      "description": "Lorem ipsum",
-      "autocomplete": []
-    };
-
     /*
     this.schema = {
       "type": "object",
@@ -240,9 +154,7 @@ export class FormGeneratorPage {
         }
       }
     };
-    */
 
-    /*
     this.form = {
       "autocomplete": [],
       "checkbox": false,
@@ -271,8 +183,118 @@ export class FormGeneratorPage {
         }
       ]
     };
-  };
-  */
+    */
+
+    this.schema = {
+      "type": "object",
+      "properties": {
+        "checkbox": {
+          "$id": "data/properties/checkbox",
+          "type": "boolean",
+          "title": "Checkbox",
+          "description": "Check Me"
+        },
+        "title": {
+          "$id": "data/properties/title",
+          "type": "string",
+          "title": "Title",
+          "description": "Please provide a title for this"
+        },
+        "authorFirstName": {
+          "$id": "data/properties/authorFirstName",
+          "type": "string",
+          "title": "First Name",
+          "description": "Please provide your first name"
+        },
+        "authorLastName": {
+          "$id": "data/properties/authorLastName",
+          "type": "string",
+          "title": "Last Name",
+          "description": "Please provide your last name"
+        },
+        "description": {
+          "$id": "data/properties/description",
+          "type": "string",
+          "title": "Description",
+          "description": "Please provide a long description"
+        },
+        "combobox": {
+          "$id": "data/properties/combobox",
+          "type": "string",
+          "title": "Combobox",
+          "description": "Combobox Description",
+          "enum": ["Automatic", "Manual"]
+        },
+        "wysiwygEditor": {
+          "$id": "data/properties/wysiwygEditor",
+          "type": "string",
+          "title": "Wysiwyg Editor",
+          "description": "Wysiwyg Editor Description",
+        },
+        "autocomplete": {
+          "$id": "data/properties/autocomplete",
+          "type": "array",
+          "title": "Autocomplete",
+          "description": "Autocomplete Decription",
+          "items": {
+            "$id": "/properties/autocomplete/items",
+            "type": "object",
+            "enum": [
+              {
+                "type": 'country',
+                "data": {
+                  "name": 'Austria',
+                  "capital": 'Vienna'
+                }
+              },
+              {
+                "type": 'country',
+                "data": {
+                  "name": 'Australia',
+                  "capital": 'Canberra'
+                }
+              },
+              {
+                "type": 'country',
+                "data": {
+                  "name": 'Argentina',
+                  "capital": 'Buenos Aires'
+                }
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "checkbox",
+        "title",
+        "authorFirstName",
+        "authorLastName",
+        "description",
+        "combobox",
+        "wysiwygEditor",
+        "autocomplete"
+      ],
+      "definitions": {}
+    };
+
+    this.form = {
+      "checkbox": false,
+      "title": "My Title",
+      "authorFirstName": "John",
+      "authorLastName": "Doe",
+      "description": "Lorem ipsum",
+      "combobox": "",
+      "wysiwygEditor": "<strong>Initial Text</strong>",
+      "autocomplete": []
+    };
+
+    this.wysiwygProps = {
+      fencing: true,
+      html: true,
+      markdown: true,
+      wysiwyg: true
+    }
 
     this.autocompleteProps = {
       searchKey: "data.name"
@@ -281,11 +303,11 @@ export class FormGeneratorPage {
 
   render() {
     // <form-generator schema={this.schema} value={this.form}>
-    //   <cwc-inlineedit for="string" />
-    //   <cwc-datepicker for="date" />
-    //   <cwc-autocomplete-select for="autocomplete" />
-    //   <cwc-combobox for="dropdown" />
     //   <checkbox-generator for="boolean" />
+    //   <cwc-inlineedit for="string" />
+    //   <cwc-autocomplete-select for="autocomplete" />
+    //   <cwc-datepicker for="date" />
+    //   <cwc-combobox for="dropdown" />
     //   <cwc-wysiwyg-editor for="textarea" />
     // </form-generator>
     return (
@@ -293,7 +315,15 @@ export class FormGeneratorPage {
         <checkbox-generator for="boolean" />
         <cwc-inlineedit for="string" />
         <cwc-inlineedit-textarea for="data/properties/description" />
-        <cwc-autocomplete-select for="array" props={JSON.stringify(this.autocompleteProps)} />
+        <cwc-combobox for="data/properties/combobox" />
+        <cwc-wysiwyg-editor
+          for="data/properties/wysiwygEditor"
+          props={JSON.stringify(this.wysiwygProps)}
+        />
+        <cwc-autocomplete-select
+          for="array"
+          props={JSON.stringify(this.autocompleteProps)}
+        />
       </form-generator>
     );
   }
