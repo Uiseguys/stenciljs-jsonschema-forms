@@ -6,6 +6,7 @@ import {Component, State} from '@stencil/core';
 })
 
 export class FormGeneratorPage {
+  autocompleteProps: any;
   @State() schema: any;
   @State() form: any;
 
@@ -16,7 +17,7 @@ export class FormGeneratorPage {
         "checkbox": {
           "$id": "data/properties/checkbox",
           "type": "boolean",
-          "title": "Checkbox Title",
+          "title": "Checkbox",
           "description": "Check Me"
         },
         "title": {
@@ -42,9 +43,49 @@ export class FormGeneratorPage {
           "type": "string",
           "title": "Description",
           "description": "Please provide a long description"
+        },
+        "autocomplete": {
+          "$id": "data/properties/autocomplete",
+          "type": "array",
+          "title": "Autocomplete",
+          "description": "Array me!",
+          "items": {
+            "$id": "/properties/autocomplete/items",
+            "type": "object",
+            "enum": [
+              {
+                "type": 'country',
+                "data": {
+                  "name": 'Austria',
+                  "capital": 'Vienna'
+                }
+              },
+              {
+                "type": 'country',
+                "data": {
+                  "name": 'Australia',
+                  "capital": 'Canberra'
+                }
+              },
+              {
+                "type": 'country',
+                "data": {
+                  "name": 'Argentina',
+                  "capital": 'Buenos Aires'
+                }
+              }
+            ]
+          }
         }
       },
-      "required": ["checkbox", "title", "authorFirstName", "authorLastName", "description"],
+      "required": [
+        "checkbox",
+        "title",
+        "authorFirstName",
+        "authorLastName",
+        "description",
+        "autocomplete"
+      ],
       "definitions": {}
     };
 
@@ -53,7 +94,8 @@ export class FormGeneratorPage {
       "title": "My Title",
       "authorFirstName": "John",
       "authorLastName": "Doe",
-      "description": "Lorem ipsum"
+      "description": "Lorem ipsum",
+      "autocomplete": []
     };
 
     /*
@@ -231,6 +273,10 @@ export class FormGeneratorPage {
     };
   };
   */
+
+    this.autocompleteProps = {
+      searchKey: "data.name"
+    };
   }
 
   render() {
@@ -247,6 +293,7 @@ export class FormGeneratorPage {
         <checkbox-generator for="boolean" />
         <cwc-inlineedit for="string" />
         <cwc-inlineedit-textarea for="data/properties/description" />
+        <cwc-autocomplete-select for="array" props={JSON.stringify(this.autocompleteProps)} />
       </form-generator>
     );
   }

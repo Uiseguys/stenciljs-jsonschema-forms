@@ -64,8 +64,17 @@ export class FormGeneratorComponent {
     let mapKey: string;
     for (let i = 0; i < this.el.children.length; i++) {
       let child = this.el.children[i];
-      mapKey = child['for'] ? child['for'] : child.getAttribute('for');
-      this.mapping[mapKey] = child['localName'];
+
+      if (child['for']) {
+        mapKey = child['for'];
+      } else {
+        mapKey = child.getAttribute('for');
+      }
+
+      this.mapping[mapKey] = {
+        props: JSON.parse(child.getAttribute('props')),
+        Tag: child['localName']
+      };
     }
 
     this.el.innerHTML = "";
@@ -144,7 +153,7 @@ export class FormGeneratorComponent {
     return this.schemaDefinitions[itemsRef];
   }
 
-  // TODO: These fn should dissapear at some point
+  /* TODO: These fn should dissapear at some point */
   createDate(schemaProps: any, prop: any) {
     let Tag = this.mapping[this.getMappedElement(schemaProps[prop])];
     const { $id } = schemaProps[prop];
@@ -188,7 +197,8 @@ export class FormGeneratorComponent {
     return (
       <Tag id={$id}
         label={prop}
-        data={items || this.value[prop]}
+        value={this.value[prop]}
+        data={items}
         searchKey={searchKey}
         placeholder={placeholder}
       />
@@ -244,21 +254,35 @@ export class FormGeneratorComponent {
       /> : null
     );
   }
-  // TODO: These fn should dissapear at some point
+  /* TODO: These fn should dissapear at some point */
 
   createDefault(schemaProps: any, prop: any, schemaPropKey: any) {
-    let Tag = this.getMappedElement(schemaProps[prop]);
-    const { $id, title, description, format, type } = schemaProps[prop];
+    let propItems: any;
+    let { Tag, props } = this.getMappedElement(schemaProps[prop]);
+    const { $id, type, title, description, items } = schemaProps[prop];
+
+    /* <for arrays> */
+    if (items) {
+      propItems = items.hasOwnProperty('$ref') ?
+      this.getRefDefinition(schemaProps[prop])
+      : items;
+    }
+    /* </for arrays> */
+
     return (
-      <Tag id={$id}
-        for={type}
+      <Tag
+        id={$id}
         label={title}
-        format={format}
-        value={(this.value[prop] || this.value[prop] === false) ?
-          JSON.stringify(this.value[prop])
-          : this.value[schemaPropKey][prop]
+        value={
+          (this.value[prop] || this.value[prop] === false) ?
+            JSON.stringify(this.value[prop])
+            : this.value[schemaPropKey][prop]
         }
-        placeholder={description}/> || null
+        data={propItems && propItems.enum || null}
+        searchKey={props && props.searchKey || null}
+        placeholder={description}
+        for={type} // TODO: this should dissapear
+      /> || null
     );
   }
 
