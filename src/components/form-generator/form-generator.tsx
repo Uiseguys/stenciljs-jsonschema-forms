@@ -289,7 +289,7 @@ export class FormGeneratorComponent {
         html={props && props.html || null}
         markdown={props && props.markdown || null}
         wysiwyg={props && props.wysiwyg || null}
-      >{this.value[prop]}</Tag> || null
+      >{Tag === 'cwc-wysiwyg-editor' ? this.value[prop] : null}</Tag> || null
     );
   }
 
