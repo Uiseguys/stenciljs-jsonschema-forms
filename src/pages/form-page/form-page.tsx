@@ -8,6 +8,7 @@ import {Component, State} from '@stencil/core';
 export class FormGeneratorPage {
   wysiwygProps: any;
   autocompleteProps: any;
+  vegetablesProps: any;
   @State() schema: any;
   @State() form: any;
 
@@ -263,6 +264,13 @@ export class FormGeneratorPage {
               }
             ]
           }
+        },
+        "vegetables": {
+          "$id": "data/properties/vegetables",
+          "type": "array",
+          "title": "Vegetables",
+          "description": "Vegetables Decription",
+          "items": { "$ref": "#/definitions/veggie" }
         }
       },
       "required": [
@@ -273,9 +281,26 @@ export class FormGeneratorPage {
         "description",
         "combobox",
         "wysiwygEditor",
-        "autocomplete"
+        "autocomplete",
+        "vegetables"
       ],
-      "definitions": {}
+      "definitions": {
+        "veggie": {
+          "$id": "data/properties/vegetables#/definitions/veggie",
+          "type": "object",
+          "properties": {
+            "veggieName": {
+              "type": "string",
+              "description": "The name of the vegetable."
+            },
+            "veggieLike": {
+              "type": "boolean",
+              "description": "Do I like this vegetable?"
+            }
+          },
+          "required": [ "veggieName", "veggieLike" ]
+        }
+      }
     };
 
     this.form = {
@@ -286,7 +311,17 @@ export class FormGeneratorPage {
       "description": "Lorem ipsum",
       "combobox": "",
       "wysiwygEditor": "<strong>Initial Text</strong>",
-      "autocomplete": []
+      "autocomplete": [],
+      "vegetables": [
+        {
+          "veggieName": "potato",
+          "veggieLike": true
+        },
+        {
+          "veggieName": "broccoli",
+          "veggieLike": false
+        }
+      ]
     };
 
     this.wysiwygProps = {
@@ -294,10 +329,12 @@ export class FormGeneratorPage {
       html: true,
       markdown: true,
       wysiwyg: true
-    }
-
+    };
     this.autocompleteProps = {
       searchKey: "data.name"
+    };
+    this.vegetablesProps = {
+      searchKey: "veggieName"
     };
   }
 
@@ -323,6 +360,10 @@ export class FormGeneratorPage {
         <cwc-autocomplete-select
           for="array"
           props={JSON.stringify(this.autocompleteProps)}
+        />
+        <cwc-autocomplete-select
+          for="data/properties/vegetables"
+          props={JSON.stringify(this.vegetablesProps)}
         />
       </form-generator>
     );
